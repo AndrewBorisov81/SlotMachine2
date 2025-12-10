@@ -9,8 +9,9 @@ USING_NS_CC;
 SlotMachine::SlotMachine(std::vector<int> boxData): _boxData(boxData)
 {
   //Frame
-  auto mySprite = Sprite::createWithSpriteFrameName(FRAME_WHEEL);
-  this->addChild(mySprite, 10);
+  //auto mySprite = Sprite::createWithSpriteFrameName(FRAME_WHEEL);
+  auto mySprite = Sprite::create("SlotMachine.png");
+  this->addChild(mySprite, -20);
 
 
   //Create wheel
