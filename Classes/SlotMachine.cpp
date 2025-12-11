@@ -8,12 +8,6 @@ USING_NS_CC;
 
 SlotMachine::SlotMachine(std::vector<int> boxData): _boxData(boxData)
 {
-  //Frame
-  //auto mySprite = Sprite::createWithSpriteFrameName(FRAME_WHEEL);
-  auto mySprite = Sprite::create(Constants::FRAME_WHEEL);
-  this->addChild(mySprite, -20);
-
-
   //Create wheel
   Wheel* wheel = new Wheel(_boxData);
   this->addChild(wheel);

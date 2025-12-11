@@ -38,7 +38,7 @@ bool GameField::init()
 
   //Bg
   LayerColor * bgColor = LayerColor::create(Color4B(80, 122, 220, 255));
-  this->addChild(bgColor, -10);
+  this->addChild(bgColor, -30);
 
   //create box data
   std::vector<int> boxData;
@@ -46,11 +46,28 @@ bool GameField::init()
   {
     boxData.push_back(i);
   }
-
+    
+  //Frame Slot Machine
+  auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
+  frameSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+  this->addChild(frameSprite, -20);
+    
+  Size frameSize = frameSprite->getContentSize();
+    
   //slot machine
-  SlotMachine* slotMachine = new SlotMachine(boxData);
-  slotMachine->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-  this->addChild(slotMachine, 30);
+  SlotMachine* slotMachine1 = new SlotMachine(boxData);
+  slotMachine1->setPosition(Vec2(0.19 * frameSize.width, 0.5 * frameSize.height));
+  frameSprite->addChild(slotMachine1, 30);
+    
+  //slot machine
+  SlotMachine* slotMachine2 = new SlotMachine(boxData);
+  slotMachine2->setPosition(Vec2(0.38 * frameSize.width, 0.5 * frameSize.height));
+  frameSprite->addChild(slotMachine2, 30);
+    
+  //slot machine
+  SlotMachine* slotMachine3 = new SlotMachine(boxData);
+  slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
+  frameSprite->addChild(slotMachine3, 30);
 
   //create spin button
     auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -61,7 +78,9 @@ bool GameField::init()
   spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
     {
-      slotMachine->startStopMachine();
+      slotMachine1->startStopMachine();
+      slotMachine2->startStopMachine();
+      slotMachine3->startStopMachine();
     }
   });
   this->addChild(spinButton, 40);
