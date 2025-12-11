@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+#include "Constants.h"
+
 #include <vector>
 #include <string>
 
@@ -25,10 +27,10 @@ private:
   int _cellNumberData;
     
   const std::vector<std::string> CELLS = {
-        "IconSLM1.png",
-        "IconSLM2.png",
-        "IconSLM3.png",
-        "IconSLM4.png"
+      Constants::CELL1,
+      Constants::CELL2,
+      Constants::CELL3,
+      Constants::CELL4
     };
     
     const std::string& getRandomCellImage();

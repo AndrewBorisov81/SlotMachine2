@@ -34,7 +34,7 @@ bool GameField::init()
 
   //load the Sprite Sheet
   auto spritecache = SpriteFrameCache::getInstance();
-  spritecache->addSpriteFramesWithFile("IconsSlotMachine1.plist");
+    spritecache->addSpriteFramesWithFile(Constants::ICONS_PLIST);
 
   //Bg
   LayerColor * bgColor = LayerColor::create(Color4B(80, 122, 220, 255));
@@ -53,7 +53,8 @@ bool GameField::init()
   this->addChild(slotMachine, 30);
 
   //create spin button
-  auto spinButton = Button::create("CloseNormal.png", "CloseSelected.png", "CloseNormal.png");
+    auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
+                                     , Constants::SPIN_BUTTON_SELECTED, Constants::SPIN_BUTTON_NORMAL);
   Size buttonSize = spinButton->getContentSize();
   spinButton->setPosition(Vec2(visibleSize.width + origin.x - 0.6 * buttonSize.width, -0.6 * buttonSize.height));
   spinButton->setPressedActionEnabled(true);

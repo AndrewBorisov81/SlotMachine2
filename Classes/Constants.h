@@ -1,12 +1,15 @@
-#ifndef __CONSTANTS_H__
-#define __CONSTANTS_H__
+#pragma once
 
-//Images
-#define CELL1       "IconSLM1.png"
-#define CELL2        "IconSLM2.png"
-#define CELL3        "IconSLM3.png"
-#define CELL4        "IconSLM4.png"
-#define FRAME_WHEEL "SlotMachine.png"
-#define SPIN_BUTTON "CloseNormal.png"
+namespace Constants {
 
-#endif // __CONSTANTS_H__
+constexpr auto FRAME_WHEEL = "SlotMachine.png";
+constexpr auto ICONS_PLIST = "IconsSlotMachine1.plist";
+constexpr auto CELL1 = "IconSLM1.png";
+constexpr auto CELL2 = "IconSLM2.png";
+constexpr auto CELL3 = "IconSLM3.png";
+constexpr auto CELL4 = "IconSLM4.png";
+     
+constexpr auto SPIN_BUTTON_NORMAL = "CloseNormal.png";
+constexpr auto SPIN_BUTTON_SELECTED = "CloseSelected.png";
+}
+

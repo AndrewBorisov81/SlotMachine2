@@ -10,7 +10,7 @@ SlotMachine::SlotMachine(std::vector<int> boxData): _boxData(boxData)
 {
   //Frame
   //auto mySprite = Sprite::createWithSpriteFrameName(FRAME_WHEEL);
-  auto mySprite = Sprite::create("SlotMachine.png");
+  auto mySprite = Sprite::create(Constants::FRAME_WHEEL);
   this->addChild(mySprite, -20);
 
 
