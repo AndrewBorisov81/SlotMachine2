@@ -32,10 +32,10 @@ Cell::Cell(int numberData):_cellNumberData(numberData)
   std::string s = std::to_string(_cellNumberData);
 
   //Text number label
-  //Label* cellNumberLabel = Label::createWithTTF(s, "fonts/arial.ttf", 35);
-  //cellNumberLabel->setColor(Color3B(0, 0, 0));
-  // add the label as a child to this layer
-  //this->addChild(cellNumberLabel, 20);
+  Label* cellNumberLabel = Label::createWithTTF(s, "fonts/arial.ttf", 35);
+  cellNumberLabel->setColor(Color3B(0, 0, 0));
+  //add the label as a child to this layer
+  this->addChild(cellNumberLabel, 20);
 }
 
 cocos2d::Size Cell::getCellSize()const

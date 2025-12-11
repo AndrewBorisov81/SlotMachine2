@@ -77,4 +77,4 @@ private:
   int _counterKBreak { 0 };
 };
 
-#endif // __CELL_H__
+#endif //__SLOT_MACHINE_H__

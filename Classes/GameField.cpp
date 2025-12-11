@@ -50,7 +50,7 @@ bool GameField::init()
   //Frame Slot Machine
   auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
   frameSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-  this->addChild(frameSprite, -20);
+  this->addChild(frameSprite, 40);
     
   Size frameSize = frameSprite->getContentSize();
     
@@ -60,14 +60,14 @@ bool GameField::init()
   frameSprite->addChild(slotMachine1, 30);
     
   //slot machine
-  SlotMachine* slotMachine2 = new SlotMachine(boxData);
+  /*SlotMachine* slotMachine2 = new SlotMachine(boxData);
   slotMachine2->setPosition(Vec2(0.38 * frameSize.width, 0.5 * frameSize.height));
-  frameSprite->addChild(slotMachine2, 30);
+  frameSprite->addChild(slotMachine2, 30);*/
     
   //slot machine
-  SlotMachine* slotMachine3 = new SlotMachine(boxData);
+  /*SlotMachine* slotMachine3 = new SlotMachine(boxData);
   slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
-  frameSprite->addChild(slotMachine3, 30);
+  frameSprite->addChild(slotMachine3, 30);*/
 
   //create spin button
     auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -79,8 +79,8 @@ bool GameField::init()
     if (type == Widget::TouchEventType::ENDED)
     {
       slotMachine1->startStopMachine();
-      slotMachine2->startStopMachine();
-      slotMachine3->startStopMachine();
+      //slotMachine2->startStopMachine();
+      //slotMachine3->startStopMachine();
     }
   });
   this->addChild(spinButton, 40);

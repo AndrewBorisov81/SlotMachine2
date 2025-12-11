@@ -12,4 +12,3 @@ constexpr auto CELL4 = "IconSLM4.png";
 constexpr auto SPIN_BUTTON_NORMAL = "CloseNormal.png";
 constexpr auto SPIN_BUTTON_SELECTED = "CloseSelected.png";
 }
-
