@@ -3,13 +3,25 @@
 #include <string>
 //#include "SimpleAudioEngine.h"
 #include "math.h"
+#include <random>
 
 USING_NS_CC;
+
+int Cell::getRandomIndex() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dist(0, 3); // 0..3
+    return dist(gen);
+}
+
+const std::string& Cell::getRandomCellImage() {
+    return CELLS[getRandomIndex()];
+}
 
 Cell::Cell(int numberData):_cellNumberData(numberData)
 {
   //Frame
-  auto mySprite = Sprite::createWithSpriteFrameName(CELL);
+  auto mySprite = Sprite::createWithSpriteFrameName(getRandomCellImage());
   this->addChild(mySprite, 10);
 
   Size spriteSize = mySprite->getContentSize();
@@ -20,10 +32,10 @@ Cell::Cell(int numberData):_cellNumberData(numberData)
   std::string s = std::to_string(_cellNumberData);
 
   //Text number label
-  Label* cellNumberLabel = Label::createWithTTF(s, "fonts/arial.ttf", 35);
-  cellNumberLabel->setColor(Color3B(0, 0, 0));
+  //Label* cellNumberLabel = Label::createWithTTF(s, "fonts/arial.ttf", 35);
+  //cellNumberLabel->setColor(Color3B(0, 0, 0));
   // add the label as a child to this layer
-  this->addChild(cellNumberLabel, 20);
+  //this->addChild(cellNumberLabel, 20);
 }
 
 cocos2d::Size Cell::getCellSize()const
