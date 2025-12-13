@@ -65,7 +65,7 @@ bool GameField::init()
   Size frameSize = frameSprite->getContentSize();
     
   //slot machine
-  SlotMachine* slotMachine1 = new SlotMachine(jsonData, targetCell);
+  SlotMachine* slotMachine1 = new SlotMachine(jsonData);
   slotMachine1->setPosition(Vec2(0.19 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine1, 30);
     
@@ -90,7 +90,7 @@ bool GameField::init()
     {
         if(slotMachine1->getState() == SlotMachine::State::SPIN
            || slotMachine1->getState() == SlotMachine::State::STOP) {
-            slotMachine1->startStopMachine();
+            slotMachine1->startStopMachine(targetCell);
         }
       //slotMachine2->startStopMachine();
       //slotMachine3->startStopMachine();

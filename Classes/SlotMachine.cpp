@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-SlotMachine::SlotMachine(const std::vector<int>& boxData, int targetCell): _boxData(boxData), _targetCell{targetCell}
+SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
 {
   //Create wheel
   Wheel* wheel = new Wheel(_boxData);
@@ -23,8 +23,9 @@ SlotMachine::SlotMachine(const std::vector<int>& boxData, int targetCell): _boxD
   this->scheduleUpdate();
 }
 
-void SlotMachine::startStopMachine()
+void SlotMachine::startStopMachine(int targetCell)
 {
+  _targetCell = targetCell;
   _fMachineStart = (_fMachineStart) ? false : true;
 
   if (_fMove && !_isStopped)
@@ -96,6 +97,8 @@ void SlotMachine::update(float delta)
         _fCalculateBreakDistance = true;
 
         _timerEasyIn = 0;
+          
+        setState(State::BREAK);
       }
 
       _timerBreak += _deltaTimeBreak;
@@ -109,7 +112,7 @@ void SlotMachine::update(float delta)
 
       _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
 
-      if (_timerBreak >= 1 && _state != State::BREAK)
+      if (_timerBreak >= 1)
       {
         _isStopped = true;
         _fMove = false;
@@ -121,7 +124,6 @@ void SlotMachine::update(float delta)
         _initPosYBreak = 0;
       }
     }
-
 
     //check add delete cell
     int indLastCell = _wheel->getIndexLastCell();

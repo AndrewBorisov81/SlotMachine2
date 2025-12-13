@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-int Cell::getRandomIndex() {
+/*int Cell::getRandomIndex() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<> dist(0, 3); // 0..3
@@ -16,7 +16,7 @@ int Cell::getRandomIndex() {
 
 const std::string& Cell::getRandomCellImage() {
     return CELLS[getRandomIndex()];
-}
+}*/
 
 Cell::Cell(int numberData):_cellNumberData(numberData)
 {

@@ -10,11 +10,11 @@ class SlotMachine: public cocos2d::Node
 {
 
 public:
-  enum class State { START, SPIN, BREAK, STOP };
+  enum class State { START, SPIN, FIND_TARGET, BREAK, STOP };
     
-  SlotMachine(const std::vector<int>& boxData, int targetCell);
+  SlotMachine(const std::vector<int>& boxData);
 
-  void startStopMachine();
+  void startStopMachine(int targetCell);
 
   void update(float) override;
 
