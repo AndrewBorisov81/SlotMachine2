@@ -20,8 +20,17 @@ const std::string& Cell::getRandomCellImage() {
 
 Cell::Cell(int numberData):_cellNumberData(numberData)
 {
+  if(_cellCounter < 50)
+  {
+      _cellCounter++;
+  } else
+  {
+    _cellCounter = 0;
+  }
+
   //Frame
-  auto mySprite = Sprite::createWithSpriteFrameName(getRandomCellImage());
+  //auto mySprite = Sprite::createWithSpriteFrameName(getRandomCellImage());
+    auto mySprite = Sprite::createWithSpriteFrameName(CELLS[_cellNumberData]);
   this->addChild(mySprite, 10);
 
   Size spriteSize = mySprite->getContentSize();
@@ -29,7 +38,8 @@ Cell::Cell(int numberData):_cellNumberData(numberData)
   _cellSize.width = spriteSize.width;
   _cellSize.height = spriteSize.height;
 
-  std::string s = std::to_string(_cellNumberData);
+  //std::string s = std::to_string(_cellNumberData);
+  std::string s = std::to_string(_cellCounter);
 
   //Text number label
   Label* cellNumberLabel = Label::createWithTTF(s, "fonts/arial.ttf", 35);

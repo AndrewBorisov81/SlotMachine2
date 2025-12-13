@@ -25,6 +25,7 @@ private:
   cocos2d::Size _cellSize { 0, 0 };
   //label on the wheel
   int _cellNumberData;
+  inline static int _cellCounter{ -1 };
     
   const std::vector<std::string> CELLS = {
       Constants::CELL1,

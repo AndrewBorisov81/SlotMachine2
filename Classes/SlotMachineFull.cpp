@@ -7,7 +7,7 @@
 
 #include "SlotMachineFull.h"
 
-SlotMachineFull::SlotMachineFull(std::vector<std::vector<int>> wheelDatas, std::vector<int> targetCells) {
+SlotMachineFull::SlotMachineFull(const std::vector<std::vector<int>>& wheelDatas, std::vector<int> targetCells) {
     
 }
 

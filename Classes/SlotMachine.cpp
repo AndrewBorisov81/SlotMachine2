@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-SlotMachine::SlotMachine(std::vector<int> boxData): _boxData(boxData)
+SlotMachine::SlotMachine(const std::vector<int>& boxData, int targetCell): _boxData(boxData), _targetCell{targetCell}
 {
   //Create wheel
   Wheel* wheel = new Wheel(_boxData);
@@ -61,10 +61,15 @@ void SlotMachine::update(float delta)
       if (_timerEasyIn < 1)
       {
         _timerEasyIn += _deltaTimeEasyIn;
+        if(getState() != State::START)
+        {
+          setState(State::START);
+        }
       }
-      else
+      else if(_state != State::SPIN)
       {
         _timerEasyIn = 1;
+        setState(State::SPIN);
       }
 
       _kEasyIn = easyIn(_timerEasyIn);
@@ -104,16 +109,17 @@ void SlotMachine::update(float delta)
 
       _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
 
-     if (_timerBreak >= 1)
-     {
-       _isStopped = true;
-       _fMove = false;
+      if (_timerBreak >= 1 && _state != State::BREAK)
+      {
+        _isStopped = true;
+        _fMove = false;
+        setState(State::STOP);
 
-       _timerBreak = 0;
-       _kSlowDownBack = 0;
-       _shiftSetPosBreakKSlowBack = 0;
-       _initPosYBreak = 0;
-     }
+        _timerBreak = 0;
+        _kSlowDownBack = 0;
+        _shiftSetPosBreakKSlowBack = 0;
+        _initPosYBreak = 0;
+      }
     }
 
 
@@ -254,3 +260,12 @@ float SlotMachine::easeOutBounceHelper_(float t, float c, float a)
   }
 }
 //! \endcond
+void SlotMachine::setState(State state)
+{
+    _state = state;
+}
+  
+SlotMachine::State SlotMachine::getState() const
+{
+    return _state;
+}

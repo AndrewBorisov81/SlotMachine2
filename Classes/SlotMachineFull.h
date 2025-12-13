@@ -15,7 +15,7 @@ class SlotMachine;
 class SlotMachineFull: public cocos2d::Node
 {
 public:
-    SlotMachineFull(std::vector<std::vector<int>> wheelDatas, std::vector<int> targetCells);
+    SlotMachineFull(const std::vector<std::vector<int>>& wheelDatas, std::vector<int> targetCells);
 private:
     std::vector<SlotMachine*> _slotMachines;
 };

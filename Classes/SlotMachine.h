@@ -10,7 +10,9 @@ class SlotMachine: public cocos2d::Node
 {
 
 public:
-  SlotMachine(std::vector<int> boxData);
+  enum class State { START, SPIN, BREAK, STOP };
+    
+  SlotMachine(const std::vector<int>& boxData, int targetCell);
 
   void startStopMachine();
 
@@ -30,11 +32,15 @@ public:
   inline float easeOutBounceHelper_(float t, float c, float a);
   inline float easeOutBounce(float t, float a = 1.70158f);
 
-
+  State getState() const;
 private:
   std::vector<int> _boxData;
 
   Wheel* _wheel;
+    
+  State _state{ State::STOP };
+    
+  int _targetCell{ 1 };
 
   cocos2d::Size _cellSize{ 0, 0 };
 
@@ -75,6 +81,8 @@ private:
   float _shiftSetPosBreakKSlowBack { 0 };
 
   int _counterKBreak { 0 };
+    
+  void setState(State state);
 };
 
 #endif //__SLOT_MACHINE_H__

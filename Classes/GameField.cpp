@@ -39,6 +39,16 @@ bool GameField::init()
   //Bg
   LayerColor * bgColor = LayerColor::create(Color4B(80, 122, 220, 255));
   this->addChild(bgColor, -30);
+    
+  std::vector<int> jsonData = {
+    0, 0, 3, 3, 2, 0, 1, 3, 3, 2,
+    2, 1, 0, 3, 0, 2, 1, 1, 3, 2,
+    2, 1, 3, 3, 2, 0, 1, 1, 1, 2,
+    3, 1, 3, 0, 2, 0, 1, 0, 2, 2,
+    0, 1, 3, 3, 2, 0, 1, 3, 3, 2,
+  };
+  // When to stop wheel cell
+  int targetCell = 20;
 
   //create box data
   std::vector<int> boxData;
@@ -55,7 +65,7 @@ bool GameField::init()
   Size frameSize = frameSprite->getContentSize();
     
   //slot machine
-  SlotMachine* slotMachine1 = new SlotMachine(boxData);
+  SlotMachine* slotMachine1 = new SlotMachine(jsonData, targetCell);
   slotMachine1->setPosition(Vec2(0.19 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine1, 30);
     
@@ -78,7 +88,10 @@ bool GameField::init()
   spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
     {
-      slotMachine1->startStopMachine();
+        if(slotMachine1->getState() == SlotMachine::State::SPIN
+           || slotMachine1->getState() == SlotMachine::State::STOP) {
+            slotMachine1->startStopMachine();
+        }
       //slotMachine2->startStopMachine();
       //slotMachine3->startStopMachine();
     }
