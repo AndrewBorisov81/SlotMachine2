@@ -26,14 +26,16 @@ SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
 void SlotMachine::startStopMachine(int targetCell)
 {
   _targetCell = targetCell;
+    
   _fMachineStart = (_fMachineStart) ? false : true;
 
-  if (_fMove && !_isStopped)
+  if (_fMove && !_isStopped && getState() != State::FIND_TARGET)
   {
-    _break = true;
+    //_break = true;
     _start = false;
+    _findTarget = true;
+    setState(State::FIND_TARGET);
   }
-    
 
   if (_isStopped)
   {
@@ -45,6 +47,8 @@ void SlotMachine::startStopMachine(int targetCell)
       _start = true;
       _break = false;
       _fCalculateBreakDistance = false;
+      _findTarget = false;
+      setState(State::START);
     }
   }
 }
@@ -80,7 +84,18 @@ void SlotMachine::update(float delta)
 
       _wheel->setPosition(wheelPos);
     }
-
+      
+    //find Target
+    if(_findTarget)
+    {
+        /*int cell = _wheel->getIndexFirstCell();
+        int numCell = cell->getCurrentCellsCounter();*/
+        /*if(_targetCell == )
+        {
+            _break = true;
+            setState(State::BREAK);
+        }*/
+    }
 
     //break
     if (_break)
@@ -97,6 +112,8 @@ void SlotMachine::update(float delta)
         _fCalculateBreakDistance = true;
 
         _timerEasyIn = 0;
+          
+        _findTarget = false;
           
         setState(State::BREAK);
       }

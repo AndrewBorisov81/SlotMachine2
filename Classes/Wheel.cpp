@@ -2,6 +2,8 @@
 #include "Cell.h"
 //#include "SimpleAudioEngine.h"
 
+#include <vector>
+
 USING_NS_CC;
 
 Wheel::Wheel(std::vector<int> boxData): _boxData(boxData)
@@ -109,3 +111,7 @@ void  Wheel::moveCellsInitPos(float deltaPosY)
   _indexFirstCellInWheel = 0;
 }
 
+const std::vector<Cell*>& Wheel::getCellsBox() const
+{
+    return _cellsBox;
+}

@@ -22,6 +22,8 @@ class Wheel: public cocos2d::Node
     int getIndexFirstCell()const;
 
     void moveCellsInitPos(float deltaPosY);
+    
+    const std::vector<Cell*>& getCellsBox() const;
 
   private:
     std::vector<int> _boxData;

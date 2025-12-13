@@ -18,14 +18,14 @@ const std::string& Cell::getRandomCellImage() {
     return CELLS[getRandomIndex()];
 }*/
 
-Cell::Cell(int numberData):_cellNumberData(numberData)
+Cell::Cell(int numberData):_cellNumberData(numberData), _cellsCounter(++nextId)
 {
-  if(_cellCounter < 50)
+  if(_cellsCounter < 50)
   {
-      _cellCounter++;
+      _cellsCounter++;
   } else
   {
-    _cellCounter = 0;
+    _cellsCounter = 0;
   }
 
   //Frame
@@ -39,7 +39,7 @@ Cell::Cell(int numberData):_cellNumberData(numberData)
   _cellSize.height = spriteSize.height;
 
   //std::string s = std::to_string(_cellNumberData);
-  std::string s = std::to_string(_cellCounter);
+  std::string s = std::to_string(_cellsCounter);
 
   //Text number label
   Label* cellNumberLabel = Label::createWithTTF(s, "fonts/arial.ttf", 35);
@@ -52,3 +52,9 @@ cocos2d::Size Cell::getCellSize()const
 {
   return _cellSize;
 }
+
+int Cell::getCurrentCellsCounter() const
+{
+    return _cellsCounter;
+}
+

@@ -41,6 +41,8 @@ private:
   State _state{ State::STOP };
     
   int _targetCell{ 1 };
+    
+  bool _findTarget {false};
 
   cocos2d::Size _cellSize{ 0, 0 };
 

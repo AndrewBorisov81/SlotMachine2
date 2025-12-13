@@ -11,21 +11,25 @@
 class Cell: public cocos2d::Node
 {
     
-    enum class CellType {
+  enum class CellType {
         
-    };
+  };
     
 public:
   Cell(int numberData);
 
-  cocos2d::Size getCellSize()const;
+  cocos2d::Size getCellSize() const;
+    
+  int getCurrentCellsCounter() const;
 
 private:
 
   cocos2d::Size _cellSize { 0, 0 };
-  //label on the wheel
+  //type of Cell(
   int _cellNumberData;
-  inline static int _cellCounter{ -1 };
+  //label on the wheel
+  int _cellsCounter{ -1 };
+  inline static int nextId{ -1 };
     
   const std::vector<std::string> CELLS = {
       Constants::CELL1,
