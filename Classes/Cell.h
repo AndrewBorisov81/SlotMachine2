@@ -37,9 +37,7 @@ private:
       Constants::CELL3,
       Constants::CELL4
     };
-    
-    /*const std::string& getRandomCellImage();
-    int getRandomIndex();*/
 };
 
 #endif // __CELL_H__
+

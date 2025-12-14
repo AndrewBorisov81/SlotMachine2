@@ -7,17 +7,6 @@
 
 USING_NS_CC;
 
-/*int Cell::getRandomIndex() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<> dist(0, 3); // 0..3
-    return dist(gen);
-}
-
-const std::string& Cell::getRandomCellImage() {
-    return CELLS[getRandomIndex()];
-}*/
-
 Cell::Cell(int numberData):_cellNumberData(numberData), _cellsCounter(++nextId)
 {
   if(_cellsCounter > 50)
@@ -27,8 +16,7 @@ Cell::Cell(int numberData):_cellNumberData(numberData), _cellsCounter(++nextId)
   }
 
   //Frame
-  //auto mySprite = Sprite::createWithSpriteFrameName(getRandomCellImage());
-    auto mySprite = Sprite::createWithSpriteFrameName(CELLS[_cellNumberData]);
+  auto mySprite = Sprite::createWithSpriteFrameName(CELLS[_cellNumberData]);
   this->addChild(mySprite, 10);
 
   Size spriteSize = mySprite->getContentSize();
