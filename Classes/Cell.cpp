@@ -20,12 +20,10 @@ const std::string& Cell::getRandomCellImage() {
 
 Cell::Cell(int numberData):_cellNumberData(numberData), _cellsCounter(++nextId)
 {
-  if(_cellsCounter < 50)
+  if(_cellsCounter > 50)
   {
-      _cellsCounter++;
-  } else
-  {
-    _cellsCounter = 0;
+    _cellsCounter = 1;
+    nextId = 1;
   }
 
   //Frame

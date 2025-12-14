@@ -25,17 +25,14 @@ SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
 
 void SlotMachine::startStopMachine(int targetCell)
 {
-  _targetCell = targetCell;
-    
   _fMachineStart = (_fMachineStart) ? false : true;
 
-  if (_fMove && !_isStopped && getState() != State::FIND_TARGET)
+  if (_fMove && !_isStopped)
   {
-    //_break = true;
+    _break = true;
     _start = false;
-    _findTarget = true;
-    setState(State::FIND_TARGET);
   }
+    
 
   if (_isStopped)
   {
@@ -47,8 +44,6 @@ void SlotMachine::startStopMachine(int targetCell)
       _start = true;
       _break = false;
       _fCalculateBreakDistance = false;
-      _findTarget = false;
-      setState(State::START);
     }
   }
 }
@@ -66,15 +61,10 @@ void SlotMachine::update(float delta)
       if (_timerEasyIn < 1)
       {
         _timerEasyIn += _deltaTimeEasyIn;
-        if(getState() != State::START)
-        {
-          setState(State::START);
-        }
       }
-      else if(_state != State::SPIN)
+      else
       {
         _timerEasyIn = 1;
-        setState(State::SPIN);
       }
 
       _kEasyIn = easyIn(_timerEasyIn);
@@ -84,18 +74,7 @@ void SlotMachine::update(float delta)
 
       _wheel->setPosition(wheelPos);
     }
-      
-    //find Target
-    if(_findTarget)
-    {
-        /*int cell = _wheel->getIndexFirstCell();
-        int numCell = cell->getCurrentCellsCounter();*/
-        /*if(_targetCell == )
-        {
-            _break = true;
-            setState(State::BREAK);
-        }*/
-    }
+
 
     //break
     if (_break)
@@ -112,10 +91,6 @@ void SlotMachine::update(float delta)
         _fCalculateBreakDistance = true;
 
         _timerEasyIn = 0;
-          
-        _findTarget = false;
-          
-        setState(State::BREAK);
       }
 
       _timerBreak += _deltaTimeBreak;
@@ -129,18 +104,18 @@ void SlotMachine::update(float delta)
 
       _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
 
-      if (_timerBreak >= 1)
-      {
-        _isStopped = true;
-        _fMove = false;
-        setState(State::STOP);
+     if (_timerBreak >= 1)
+     {
+       _isStopped = true;
+       _fMove = false;
 
-        _timerBreak = 0;
-        _kSlowDownBack = 0;
-        _shiftSetPosBreakKSlowBack = 0;
-        _initPosYBreak = 0;
-      }
+       _timerBreak = 0;
+       _kSlowDownBack = 0;
+       _shiftSetPosBreakKSlowBack = 0;
+       _initPosYBreak = 0;
+     }
     }
+
 
     //check add delete cell
     int indLastCell = _wheel->getIndexLastCell();

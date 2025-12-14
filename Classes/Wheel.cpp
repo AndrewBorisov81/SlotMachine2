@@ -24,7 +24,7 @@ void Wheel::createCells()
   _cellSize = cellSize;
 
   Vec2 posFirstCell = Vec2(0, 0);
-  Vec2 posEndCell = Vec2(0, 4.0 * cellSize.height);
+  Vec2 posEndCell = Vec2(0, countFirstCells * cellSize.height);
 
   _posFirstCell = posFirstCell;
   _posLastCell = posEndCell;
@@ -50,7 +50,7 @@ void Wheel::createCells()
   }
 }
 
-void Wheel::addCell()
+const Cell* Wheel::addCell()
 {
   _indexLastCellInWheel++;
   //create cells
@@ -61,6 +61,7 @@ void Wheel::addCell()
 
   Vec2 cellPos(0, (_indexLastCellInWheel - 1) * _cellSize.height);
   cell->setPosition(cellPos);
+  return cell;
 }
 
 void Wheel::deleteCell()

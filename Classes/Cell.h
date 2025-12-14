@@ -28,8 +28,8 @@ private:
   //type of Cell(
   int _cellNumberData;
   //label on the wheel
-  int _cellsCounter{ -1 };
-  inline static int nextId{ -1 };
+  int _cellsCounter{ 0 };
+  inline static int nextId{ 0 };
     
   const std::vector<std::string> CELLS = {
       Constants::CELL1,

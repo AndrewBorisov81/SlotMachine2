@@ -13,7 +13,7 @@ class Wheel: public cocos2d::Node
     void increaseIndexElementData();
 
     void createCells();
-    void addCell();
+    const Cell* addCell();
     void deleteCell();
 
     cocos2d::Size getCellSize()const;
