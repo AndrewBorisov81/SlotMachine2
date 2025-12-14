@@ -257,6 +257,25 @@ float SlotMachine::easeOutBounceHelper_(float t, float c, float a)
 void SlotMachine::setState(State state)
 {
     _state = state;
+    
+    switch(_state){
+        case State::STOP:
+            break;
+            
+        case State::ACCELERATION:
+            break;
+            
+        case State::SPIN:
+            break;
+            
+        case State::SPIN_FIND_TARGET:
+            break;
+        
+        case State::BREAK:
+            break;
+            
+    }
+    
 }
   
 SlotMachine::State SlotMachine::getState() const

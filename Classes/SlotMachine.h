@@ -10,7 +10,7 @@ class SlotMachine: public cocos2d::Node
 {
 
 public:
-  enum class State { ACCELERATION, SPIN, FIND_TARGET, BREAK, STOP };
+  enum class State { STOP, ACCELERATION, SPIN, SPIN_FIND_TARGET, BREAK };
     
   SlotMachine(const std::vector<int>& boxData);
 
