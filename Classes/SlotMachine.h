@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 
 class Wheel;
+class Cell;
 
 
 class SlotMachine: public cocos2d::Node
@@ -43,6 +44,8 @@ private:
   int _targetCell{ 1 };
     
   bool _findTarget {false};
+    
+  Cell* _currAddedCell;
 
   cocos2d::Size _cellSize{ 0, 0 };
 

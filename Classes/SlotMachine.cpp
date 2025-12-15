@@ -1,6 +1,7 @@
 #include "SlotMachine.h"
 #include "Wheel.h"
 #include "Constants.h"
+#include "Cell.h"
 //#include "SimpleAudioEngine.h"
 #include <cmath>
 
@@ -25,16 +26,12 @@ SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
 
 void SlotMachine::startStopMachine(int targetCell)
 {
+    _targetCell = targetCell;
     if (_state == State::STOP) {
-         setState(State::ACCELERATION);
-     } else {
-         /*if(_state != State::ACCELERATION || _state != State::BREAK) {
-             setState(State::SPIN_FIND_TARGET);
-         }*/
-         if(_state == State::SPIN) {
-           setState(State::BREAK);
-         }
-     }
+      setState(State::ACCELERATION);
+    } else if (_state == State::SPIN){
+      setState(State::SPIN_FIND_TARGET);
+    }
 }
 
 void SlotMachine::update(float delta)
@@ -73,7 +70,21 @@ void SlotMachine::update(float delta)
             
             _wheel->setPosition(wheelPos);
             break;
-    
+            
+        case State::SPIN_FIND_TARGET:
+          _timerEasyIn = 1;
+                 
+          _kEasyIn = easyIn(_timerEasyIn);
+          _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
+                 
+          wheelPos.y -= _deltaShiftWheelPos;
+                 
+          _wheel->setPosition(wheelPos);
+          
+          if(_targetCell == (_currAddedCell->getCurrentCellsCounter()) ) {
+              setState(State::BREAK);
+          }
+          break;
     
     
        case State::BREAK:
@@ -112,16 +123,6 @@ void SlotMachine::update(float delta)
        }
     break;
             
-    /*case State::SPIN_FIND_TARGET:
-             _timerEasyIn = 1;
-             
-             _kEasyIn = easyIn(_timerEasyIn);
-             _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
-             
-             wheelPos.y -= _deltaShiftWheelPos;
-             
-             _wheel->setPosition(wheelPos);
-             break;*/
   }
     
     //check add delete cell
@@ -130,7 +131,7 @@ void SlotMachine::update(float delta)
     
     if (dist1 <= _cellSize.height)
     {
-        _wheel->addCell();
+        _currAddedCell = _wheel->addCell();
         _wheel->deleteCell();
         
         _counterCellsWheelMoveDown++;
@@ -152,76 +153,6 @@ void SlotMachine::update(float delta)
         }
     }
 }
-    
-    //move wheel
-    /*if (_fMove)
-    {
-        Vec2 wheelPos = _wheel->getPosition();
-        
-        //start
-        if (_start)
-        {
-            if (_timerEasyIn < 1)
-            {
-                // Accelerate
-                _timerEasyIn += _deltaTimeEasyIn;
-            }
-            else
-            {
-                // Spin
-                _timerEasyIn = 1;
-            }
-            
-            _kEasyIn = easyIn(_timerEasyIn);
-            _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
-            
-            wheelPos.y -= _deltaShiftWheelPos;
-            
-            _wheel->setPosition(wheelPos);
-        }*/
-        
-        
-        //break
-        /*if (_break)
-        {
-            int indLastCellBreak = _wheel->getIndexLastCell();
-            
-            if (!_fCalculateBreakDistance)
-            {
-                _initPosYBreak = wheelPos.y;
-                
-                float breakDistance = wheelPos.y + (indLastCellBreak - 1) * _cellSize.height;
-                _breakDistance = breakDistance;
-                
-                _fCalculateBreakDistance = true;
-                
-                _timerEasyIn = 0;
-            }
-            
-            _timerBreak += _deltaTimeBreak;
-            
-            _kSlowDownBack = easeOutBack(_timerBreak);
-            
-            _shiftSetPosBreakKSlowBack = _initPosYBreak - (_kSlowDownBack * _breakDistance);
-            
-            _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
-            
-            if (_timerBreak >= 1)
-            {
-                _isStopped = true;
-                _fMove = false;
-                
-                _timerBreak = 0;
-                _kSlowDownBack = 0;
-                _shiftSetPosBreakKSlowBack = 0;
-                _initPosYBreak = 0;
-            }
-        }*/
-        
-        
-        
-    //}
-//s}
 
 float SlotMachine::easyIn(float t)
 {

@@ -50,7 +50,7 @@ void Wheel::createCells()
   }
 }
 
-const Cell* Wheel::addCell()
+Cell* Wheel::addCell()
 {
   _indexLastCellInWheel++;
   //create cells

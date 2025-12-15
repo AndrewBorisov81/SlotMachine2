@@ -48,7 +48,7 @@ bool GameField::init()
     0, 1, 3, 3, 2, 0, 1, 3, 3, 2,
   };
   // When to stop wheel cell
-  int targetCell = 20;
+  int targetCell = 35;
 
   //create box data
   std::vector<int> boxData;
@@ -70,14 +70,14 @@ bool GameField::init()
   frameSprite->addChild(slotMachine1, 30);
     
   //slot machine
-  /*SlotMachine* slotMachine2 = new SlotMachine(boxData);
+  SlotMachine* slotMachine2 = new SlotMachine(jsonData);
   slotMachine2->setPosition(Vec2(0.38 * frameSize.width, 0.5 * frameSize.height));
-  frameSprite->addChild(slotMachine2, 30);*/
+  frameSprite->addChild(slotMachine2, 30);
     
   //slot machine
-  /*SlotMachine* slotMachine3 = new SlotMachine(boxData);
+  SlotMachine* slotMachine3 = new SlotMachine(jsonData);
   slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
-  frameSprite->addChild(slotMachine3, 30);*/
+  frameSprite->addChild(slotMachine3, 30);
 
   //create spin button
     auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -92,8 +92,8 @@ bool GameField::init()
            || slotMachine1->getState() == SlotMachine::State::STOP) {
             slotMachine1->startStopMachine(targetCell);
         }
-      //slotMachine2->startStopMachine();
-      //slotMachine3->startStopMachine();
+      slotMachine2->startStopMachine(26);
+      slotMachine3->startStopMachine(5);
     }
   });
   this->addChild(spinButton, 40);
