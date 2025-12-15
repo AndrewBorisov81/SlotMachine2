@@ -25,127 +25,203 @@ SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
 
 void SlotMachine::startStopMachine(int targetCell)
 {
-  _fMachineStart = (_fMachineStart) ? false : true;
-
-  if (_fMove && !_isStopped)
-  {
-    _break = true;
-    _start = false;
-  }
-    
-
-  if (_isStopped)
-  {
-    _fMove = (_fMachineStart) ? true : false;
-
-    if (_fMove)
-    {
-      _isStopped = false;
-      _start = true;
-      _break = false;
-      _fCalculateBreakDistance = false;
-    }
-  }
+    if (_state == State::STOP) {
+         setState(State::ACCELERATION);
+     } else {
+         /*if(_state != State::ACCELERATION || _state != State::BREAK) {
+             setState(State::SPIN_FIND_TARGET);
+         }*/
+         if(_state == State::SPIN) {
+           setState(State::BREAK);
+         }
+     }
 }
 
 void SlotMachine::update(float delta)
 {
-  //move wheel
-  if (_fMove)
-  {
     Vec2 wheelPos = _wheel->getPosition();
-
-    //start
-    if (_start)
-    {
-      if (_timerEasyIn < 1)
-      {
-        _timerEasyIn += _deltaTimeEasyIn;
-      }
-      else
-      {
-        _timerEasyIn = 1;
-      }
-
-      _kEasyIn = easyIn(_timerEasyIn);
-      _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
-
-      wheelPos.y -= _deltaShiftWheelPos;
-
-      _wheel->setPosition(wheelPos);
-    }
-
-
-    //break
-    if (_break)
-    {
-      int indLastCellBreak = _wheel->getIndexLastCell();
-
-      if (!_fCalculateBreakDistance)
-      {
-        _initPosYBreak = wheelPos.y;
-
-        float breakDistance = wheelPos.y + (indLastCellBreak - 1) * _cellSize.height;
-        _breakDistance = breakDistance;
-
-        _fCalculateBreakDistance = true;
-
-        _timerEasyIn = 0;
-      }
-
-      _timerBreak += _deltaTimeBreak;
-
-      _kSlowDownBack = easeOutBack(_timerBreak);
-      //_kSlowDownBack = easeInElastic(_timerBreak, 1, 0.5);
-      //_kSlowDownBack = easeOutElastic(_timerBreak, 1, 0.5);
-      //_kSlowDownBack = easeOutBounce(_timerBreak);
-
-      _shiftSetPosBreakKSlowBack = _initPosYBreak - (_kSlowDownBack * _breakDistance);
-
-      _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
-
-     if (_timerBreak >= 1)
-     {
-       _isStopped = true;
-       _fMove = false;
-
-       _timerBreak = 0;
-       _kSlowDownBack = 0;
-       _shiftSetPosBreakKSlowBack = 0;
-       _initPosYBreak = 0;
-     }
-    }
-
-
+    
+    switch(_state) {
+        case State::STOP:
+            //CCLOG("Stop");
+            break;
+            
+        case State::ACCELERATION:
+            if (_timerEasyIn < 1) {
+                
+                _timerEasyIn += _deltaTimeEasyIn;
+                
+                _kEasyIn = easyIn(_timerEasyIn);
+                _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
+                
+                wheelPos.y -= _deltaShiftWheelPos;
+                
+                _wheel->setPosition(wheelPos);
+            } else {
+                setState(State::SPIN);
+            }
+            break;
+            
+        case State::SPIN:
+            
+            _timerEasyIn = 1;
+            
+            _kEasyIn = easyIn(_timerEasyIn);
+            _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
+            
+            wheelPos.y -= _deltaShiftWheelPos;
+            
+            _wheel->setPosition(wheelPos);
+            break;
+    
+    
+    
+       case State::BREAK:
+         int indLastCellBreak = _wheel->getIndexLastCell();
+    
+         if (!_fCalculateBreakDistance)
+         {
+           _initPosYBreak = wheelPos.y;
+        
+           float breakDistance = wheelPos.y + (indLastCellBreak - 1) * _cellSize.height;
+           _breakDistance = breakDistance;
+        
+           _fCalculateBreakDistance = true;
+        
+           _timerEasyIn = 0;
+        }
+    
+        _timerBreak += _deltaTimeBreak;
+    
+        _kSlowDownBack = easeOutBack(_timerBreak);
+    
+       _shiftSetPosBreakKSlowBack = _initPosYBreak - (_kSlowDownBack * _breakDistance);
+    
+       _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
+    
+       if (_timerBreak >= 1)
+       {
+         _isStopped = true;
+         _fMove = false;
+        
+         _timerBreak = 0;
+         _kSlowDownBack = 0;
+         _shiftSetPosBreakKSlowBack = 0;
+         _initPosYBreak = 0;
+         setState(State::STOP);
+       }
+    break;
+            
+    /*case State::SPIN_FIND_TARGET:
+             _timerEasyIn = 1;
+             
+             _kEasyIn = easyIn(_timerEasyIn);
+             _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
+             
+             wheelPos.y -= _deltaShiftWheelPos;
+             
+             _wheel->setPosition(wheelPos);
+             break;*/
+  }
+    
     //check add delete cell
     int indLastCell = _wheel->getIndexLastCell();
     float dist1 = wheelPos.y + (indLastCell - 1) * _cellSize.height;
-
+    
     if (dist1 <= _cellSize.height)
     {
-      _wheel->addCell();
-      _wheel->deleteCell();
-
-      _counterCellsWheelMoveDown++;
-
-
-      //set init position wheel(Y axis)
-      if (_counterCellsWheelMoveDown == 10 && !_break)
-      {
-        float deltaShiftY = _counterCellsWheelMoveDown * _cellSize.height;
-
-        Vec2 wheelPos2 = _wheel->getPosition();
-        wheelPos2.y += deltaShiftY;
-        _wheel->setPosition(wheelPos2);
-
-        //shift cell int deltaShiftY
-        _wheel->moveCellsInitPos(deltaShiftY);
-
-        _counterCellsWheelMoveDown = 0;
-      }
+        _wheel->addCell();
+        _wheel->deleteCell();
+        
+        _counterCellsWheelMoveDown++;
+        
+        
+        //set init position wheel(Y axis)
+        if (_counterCellsWheelMoveDown == 10 && !_break)
+        {
+            float deltaShiftY = _counterCellsWheelMoveDown * _cellSize.height;
+            
+            Vec2 wheelPos2 = _wheel->getPosition();
+            wheelPos2.y += deltaShiftY;
+            _wheel->setPosition(wheelPos2);
+            
+            //shift cell int deltaShiftY
+            _wheel->moveCellsInitPos(deltaShiftY);
+            
+            _counterCellsWheelMoveDown = 0;
+        }
     }
-  }
 }
+    
+    //move wheel
+    /*if (_fMove)
+    {
+        Vec2 wheelPos = _wheel->getPosition();
+        
+        //start
+        if (_start)
+        {
+            if (_timerEasyIn < 1)
+            {
+                // Accelerate
+                _timerEasyIn += _deltaTimeEasyIn;
+            }
+            else
+            {
+                // Spin
+                _timerEasyIn = 1;
+            }
+            
+            _kEasyIn = easyIn(_timerEasyIn);
+            _deltaShiftWheelPos = _kEasyIn * _maxShiftPos;
+            
+            wheelPos.y -= _deltaShiftWheelPos;
+            
+            _wheel->setPosition(wheelPos);
+        }*/
+        
+        
+        //break
+        /*if (_break)
+        {
+            int indLastCellBreak = _wheel->getIndexLastCell();
+            
+            if (!_fCalculateBreakDistance)
+            {
+                _initPosYBreak = wheelPos.y;
+                
+                float breakDistance = wheelPos.y + (indLastCellBreak - 1) * _cellSize.height;
+                _breakDistance = breakDistance;
+                
+                _fCalculateBreakDistance = true;
+                
+                _timerEasyIn = 0;
+            }
+            
+            _timerBreak += _deltaTimeBreak;
+            
+            _kSlowDownBack = easeOutBack(_timerBreak);
+            
+            _shiftSetPosBreakKSlowBack = _initPosYBreak - (_kSlowDownBack * _breakDistance);
+            
+            _wheel->setPosition(Vec2(0,_shiftSetPosBreakKSlowBack));
+            
+            if (_timerBreak >= 1)
+            {
+                _isStopped = true;
+                _fMove = false;
+                
+                _timerBreak = 0;
+                _kSlowDownBack = 0;
+                _shiftSetPosBreakKSlowBack = 0;
+                _initPosYBreak = 0;
+            }
+        }*/
+        
+        
+        
+    //}
+//s}
 
 float SlotMachine::easyIn(float t)
 {
@@ -266,12 +342,18 @@ void SlotMachine::setState(State state)
             break;
             
         case State::SPIN:
+            _isStopped = false;
+            _start = true;
+            _break = false;
+            _fCalculateBreakDistance = false;
             break;
             
         case State::SPIN_FIND_TARGET:
             break;
         
         case State::BREAK:
+            _break = true;
+            _start = false;
             break;
             
     }
