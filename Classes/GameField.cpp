@@ -68,16 +68,19 @@ bool GameField::init()
   SlotMachine* slotMachine1 = new SlotMachine(jsonData);
   slotMachine1->setPosition(Vec2(0.19 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine1, 30);
+  _slotMachine1 = slotMachine1;
     
   //slot machine
   SlotMachine* slotMachine2 = new SlotMachine(jsonData);
   slotMachine2->setPosition(Vec2(0.38 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine2, 30);
+  _slotMachine2 = slotMachine2;
     
   //slot machine
   SlotMachine* slotMachine3 = new SlotMachine(jsonData);
   slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine3, 30);
+  _slotMachine3 = slotMachine3;
 
   //create spin button
     auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -85,6 +88,7 @@ bool GameField::init()
   Size buttonSize = spinButton->getContentSize();
   spinButton->setPosition(Vec2(visibleSize.width + origin.x - 0.6 * buttonSize.width, -0.6 * buttonSize.height));
   spinButton->setPressedActionEnabled(true);
+    
   spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
     {
@@ -92,8 +96,27 @@ bool GameField::init()
            || slotMachine1->getState() == SlotMachine::State::STOP) {
             slotMachine1->startStopMachine(targetCell);
         }
-      slotMachine2->startStopMachine(26);
-      slotMachine3->startStopMachine(5);
+        this->runAction(
+            Sequence::create(
+                DelayTime::create(0.5f),   // delay in seconds
+                CallFunc::create([this]() {
+                    this->_slotMachine2->startStopMachine(26);
+                }),
+                nullptr
+            )
+        );
+        
+        this->runAction(
+            Sequence::create(
+                DelayTime::create(0.8f),   // delay in seconds
+                CallFunc::create([this]() {
+                    this->_slotMachine3->startStopMachine(5);
+                }),
+                nullptr
+            )
+        );
+      
+      //slotMachine3->startStopMachine(5);
     }
   });
   this->addChild(spinButton, 40);

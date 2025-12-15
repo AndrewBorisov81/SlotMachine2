@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 
+class SlotMachine;
+
 class GameField: public cocos2d::Layer
 {
 public:
@@ -13,6 +15,11 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(GameField);
+    
+private:
+    SlotMachine* _slotMachine1 = nullptr;
+    SlotMachine* _slotMachine2 = nullptr;
+    SlotMachine* _slotMachine3 = nullptr;
 };
 
 #endif // __GAME_FIELD_H__
