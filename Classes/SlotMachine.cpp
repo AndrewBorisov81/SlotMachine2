@@ -343,7 +343,6 @@ void SlotMachine::setState(State state)
             
         case State::SPIN:
             _isStopped = false;
-            _start = true;
             _break = false;
             _fCalculateBreakDistance = false;
             break;
@@ -353,7 +352,6 @@ void SlotMachine::setState(State state)
         
         case State::BREAK:
             _break = true;
-            _start = false;
             break;
             
     }
