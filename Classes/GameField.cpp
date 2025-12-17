@@ -50,8 +50,15 @@ bool GameField::init()
     0, 0, 2, 3, 1, 3, 1, 0, 3, 1
   };
     
+  std::vector<int> jsonData3 = {
+    2, 3, 1, 1, 3, 0, 2, 1, 2, 2,
+    3, 2, 3, 1, 2, 2, 0, 3, 3, 0
+  };
+    
   // When to stop wheel cell
-  int targetCell = 12;
+  int targetCell1 = 12;
+    int targetCell2 = 14;
+  int targetCell3 = 9;
     
   //Frame Slot Machine
   auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
@@ -73,7 +80,7 @@ bool GameField::init()
   _slotMachine2 = slotMachine2;
     
   //slot machine
-  SlotMachine* slotMachine3 = new SlotMachine(jsonData1);
+  SlotMachine* slotMachine3 = new SlotMachine(jsonData3);
   slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine3, 30);
   _slotMachine3 = slotMachine3;
@@ -88,17 +95,28 @@ bool GameField::init()
     spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
     {
-      slotMachine1->startStopMachine(targetCell);
-           
-      this->runAction(Sequence::create(DelayTime::create(0.2f), CallFunc::create([this]() {
-        this->_slotMachine2->startStopMachine(10);}), nullptr));
-          
-      this->runAction(Sequence::create(DelayTime::create(0.4f),   // delay in seconds
-        CallFunc::create([this]() { this->_slotMachine3->startStopMachine(17); }),
-          nullptr));
-           
+        
+        slotMachine1->startStopMachine(targetCell1);
+        
+        if(slotMachine2->getState() == SlotMachine::State::STOP ||
+           slotMachine2->getState() == SlotMachine::State::SPIN) {
+            this->runAction(Sequence::create(DelayTime::create(0.2f), CallFunc::create([this, targetCell2]() {
+                this->_slotMachine2->startStopMachine(targetCell2);}), nullptr));
+        } else {
+            slotMachine2->startStopMachine(targetCell2);
         }
-    });
+        
+        if(slotMachine3->getState() == SlotMachine::State::STOP ||
+           slotMachine3->getState() == SlotMachine::State::SPIN) {
+            this->runAction(Sequence::create(DelayTime::create(0.4f),   // delay in seconds
+                                             CallFunc::create([this, targetCell3]() {
+                this->_slotMachine3->startStopMachine(targetCell3); }),
+                                             nullptr));
+        } else {
+            slotMachine3->startStopMachine(targetCell3);
+        }
+    }
+  });
   this->addChild(spinButton, 40);
 
   auto move = MoveBy::create(1, Vec2(0, 1.2 * buttonSize.height));

@@ -16,11 +16,12 @@ class Cell: public cocos2d::Node
   };
     
 public:
-  Cell(int numberData);
+  Cell(int numberData, int maxSizeData);
 
   cocos2d::Size getCellSize() const;
     
   int getCurrentCellsCounter() const;
+  void setCellsCounter(int cellsCounter);
 
 private:
 
@@ -29,7 +30,8 @@ private:
   int _cellNumberData;
   //label on the wheel
   int _cellsCounter{ 0 };
-  inline static int nextId{ 0 };
+  //inline static int nextId{ 0 };
+
     
   const std::vector<std::string> CELLS = {
       Constants::CELL1,

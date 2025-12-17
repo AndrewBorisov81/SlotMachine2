@@ -64,7 +64,8 @@ private:
 
   //start
   float _deltaShiftWheelPos{ 2 };
-  float _maxShiftPos{ 10 };
+  //float _maxShiftPos{ 10 };
+    float _maxShiftPos{ 0 };
 
   float _timerEasyIn{ 0 };
   float _deltaTimeEasyIn{ 0.05f };

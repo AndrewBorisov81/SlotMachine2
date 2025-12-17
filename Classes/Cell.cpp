@@ -7,14 +7,8 @@
 
 USING_NS_CC;
 
-Cell::Cell(int numberData):_cellNumberData(numberData), _cellsCounter(++nextId)
+Cell::Cell(int numberData, int cellsCounter):_cellNumberData(numberData), _cellsCounter(cellsCounter)
 {
-  if(_cellsCounter > 50)
-  {
-    _cellsCounter = 1;
-    nextId = 1;
-  }
-
   //Frame
   auto mySprite = Sprite::createWithSpriteFrameName(CELLS[_cellNumberData]);
   this->addChild(mySprite, 10);
@@ -44,3 +38,7 @@ int Cell::getCurrentCellsCounter() const
     return _cellsCounter;
 }
 
+void Cell::setCellsCounter(int cellsCounter)
+{
+    _cellsCounter = cellsCounter;
+}

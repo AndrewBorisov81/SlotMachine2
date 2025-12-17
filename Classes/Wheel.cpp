@@ -8,14 +8,16 @@ USING_NS_CC;
 
 Wheel::Wheel(std::vector<int> boxData): _boxData(boxData)
 {
-  createCells();
+    createCells(static_cast<int>(boxData.size()));
 }
 
-void Wheel::createCells()
+void Wheel::createCells(int maxSizeData)
 {
+  increaseCellCounter();
+    
   int countFirstCells = 4;
   //create cells
-  Cell* cell = new Cell(_boxData[0]);
+  Cell* cell = new Cell(_boxData[0], _cellsCounter);
   this->addChild(cell);
 
   increaseIndexElementData();
@@ -38,10 +40,13 @@ void Wheel::createCells()
   //create cells
   for (int i = 1; i < countFirstCells; i++)
   {
-    Cell* cell = new Cell(_boxData[i]);
+    increaseCellCounter();
+      
+    Cell* cell = new Cell(_boxData[i], _cellsCounter);
     this->addChild(cell);
 
     increaseIndexElementData();
+    
 
     Vec2 cellPos(0, posFirstCell.y + i * cellSize.height);
     cell->setPosition(cellPos);
@@ -52,9 +57,11 @@ void Wheel::createCells()
 
 Cell* Wheel::addCell()
 {
+  increaseCellCounter();
+    
   _indexLastCellInWheel++;
   //create cells
-  Cell* cell = new Cell(_boxData[_indexLastElementInBoxData]);
+    Cell* cell = new Cell(_boxData[_indexLastElementInBoxData], _cellsCounter);
   this->addChild(cell);
   _cellsBox.push_back(cell);
   increaseIndexElementData();
@@ -81,6 +88,16 @@ void Wheel::increaseIndexElementData()
   else {
     _indexLastElementInBoxData = 0;
   }
+}
+
+void Wheel::increaseCellCounter()
+{
+    if(_cellsCounter <= (_boxData.size() - 1))
+    {
+        _cellsCounter++;
+    } else {
+        _cellsCounter = 1;
+    }
 }
 
 cocos2d::Size Wheel::getCellSize()const

@@ -11,8 +11,9 @@ class Wheel: public cocos2d::Node
     Wheel(std::vector<int> boxData);
 
     void increaseIndexElementData();
+    void increaseCellCounter();
 
-    void createCells();
+    void createCells(int maxSizeData);
     Cell* addCell();
     void deleteCell();
 
@@ -32,6 +33,8 @@ class Wheel: public cocos2d::Node
 
     int _indexLastCellInWheel { 4 };
     int _indexFirstCellInWheel{ 0 };
+    
+    int _cellsCounter{ 0 };
 
     std::vector<Cell*> _cellsBox;
     std::vector<Cell*> _cellsBoxToDelete;

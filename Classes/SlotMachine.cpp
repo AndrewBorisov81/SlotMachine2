@@ -17,6 +17,8 @@ SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
 
   Size cellSize = wheel->getCellSize();
   _cellSize = cellSize;
+    
+  _maxShiftPos = 0.1 * _cellSize.height;
 
   Vec2 wheelPos = Vec2(0, -cellSize.height);
   wheel->setPosition(wheelPos);
@@ -80,7 +82,7 @@ void SlotMachine::update(float delta)
           wheelPos.y -= _deltaShiftWheelPos;
                  
           _wheel->setPosition(wheelPos);
-          
+           
           if(_targetCell == (_currAddedCell->getCurrentCellsCounter()) ) {
               setState(State::BREAK);
           }
