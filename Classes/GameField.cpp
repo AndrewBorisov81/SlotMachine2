@@ -84,6 +84,19 @@ bool GameField::init()
   slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine3, 30);
   _slotMachine3 = slotMachine3;
+    
+    //create bet button
+    auto betButton = Button::create(Constants::SPIN_BUTTON_NORMAL
+                                       , Constants::SPIN_BUTTON_SELECTED, Constants::SPIN_BUTTON_NORMAL);
+    Size buttonSize1 = betButton->getContentSize();
+    betButton->setPosition(Vec2(visibleSize.width + origin.x - 2 * buttonSize1.width, 0.65 * buttonSize1.height));
+    betButton->setPressedActionEnabled(true);
+    this->addChild(betButton, 40);
+    // bet text label
+    auto betLabel = Label::createWithTTF("BET", "fonts/Marker Felt.ttf", 10);
+    betLabel->setPosition(Vec2(0.4 * buttonSize1.width , 1.2 * buttonSize1.height));
+    betButton->addChild(betLabel, 50);
+    
 
   //create spin button
     auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -91,6 +104,10 @@ bool GameField::init()
   Size buttonSize = spinButton->getContentSize();
   spinButton->setPosition(Vec2(visibleSize.width + origin.x - 0.6 * buttonSize.width, -0.6 * buttonSize.height));
   spinButton->setPressedActionEnabled(true);
+  // spin text label
+  auto spinLabel = Label::createWithTTF("SPIN", "fonts/Marker Felt.ttf", 10);
+    spinLabel->setPosition(Vec2(0.4 * buttonSize.width , 1.3 * buttonSize.height));
+  spinButton->addChild(spinLabel, 3);
     
     spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
