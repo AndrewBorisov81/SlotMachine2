@@ -1,5 +1,5 @@
-#ifndef __SLOT_MACHINE_FULL_H__
-#define __SLOT_MACHINE_FULL_H__
+#ifndef __REEL_H__
+#define __REEL_H__
 //
 //  SlotMachineWheels.h
 //  SlotMachine3
@@ -12,15 +12,15 @@
 
 class SlotMachine;
 
-class SlotMachineFull: public cocos2d::Node
+class Reel: public cocos2d::Node
 {
 public:
-    SlotMachineFull(const std::vector<std::vector<int>>& wheelDatas);
+    Reel(const std::vector<int>& wheelDatas);
 private:
     std::vector<SlotMachine*> _slotMachines;
 };
 
-#endif //__SLOT_MACHINE_FULL_H__
+#endif //__REEL_H__
 
 
 
