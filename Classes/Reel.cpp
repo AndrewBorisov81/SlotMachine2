@@ -7,7 +7,7 @@
 
 #include "Reel.h"
 
-Reel* Reel::create(const std::vector<int>& wheelDatas)
+Reel* Reel::create(const std::vector<std::vector<int>>& wheelDatas)
 {
   Reel* p = new Reel();
   if (p && p->initWithData(wheelDatas)) {
@@ -18,7 +18,7 @@ Reel* Reel::create(const std::vector<int>& wheelDatas)
   return nullptr;
 }
 
-bool Reel::initWithData(const std::vector<int>& wheelDatas)
+bool Reel::initWithData(const std::vector<std::vector<int>>& wheelDatas)
 {
   if (!Node::init())
     return false;
