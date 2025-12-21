@@ -15,12 +15,18 @@ class SlotMachine;
 class Reel: public cocos2d::Node
 {
 public:
-    Reel(const std::vector<int>& wheelDatas);
+    
+    static Reel* create(const std::vector<int>& wheelDatas);
+
+    virtual bool initWithData(const std::vector<int>& wheelDatas);
 private:
+    Reel() = default;
+    
     std::vector<SlotMachine*> _slotMachines;
+    
+    std::vector<int> _wheelDatas;
 };
 
 #endif //__REEL_H__
-
 
 
