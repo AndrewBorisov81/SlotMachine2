@@ -2,6 +2,7 @@
 #include "SlotMachine.h"
 //#include "SimpleAudioEngine.h"
 #include "Constants.h"
+#include "Reel.h"
 #include <vector>
 
 USING_NS_CC;
@@ -59,6 +60,14 @@ bool GameField::init()
   int targetCell1 = 12;
   int targetCell2 = 14;
   int targetCell3 = 9;
+    
+  const std::vector<std::vector<int>> reelData = {
+    jsonData1,
+    jsonData2,
+    jsonData3
+  };
+    
+  Reel* reel = Reel::create(reelData);
     
   //Frame Slot Machine
   auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);

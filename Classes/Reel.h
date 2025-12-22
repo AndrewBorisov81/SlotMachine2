@@ -16,9 +16,9 @@ class Reel: public cocos2d::Node
 {
 public:
     
-    static Reel* create(const std::vector<std::vector<int>>& wheelDatas);
+    static Reel* create(std::vector<std::vector<int>> wheelDatas);
 
-    virtual bool initWithData(const std::vector<std::vector<int>>& wheelDatas);
+    virtual bool initWithData(std::vector<std::vector<int>> wheelDatas);
 private:
     Reel() = default;
     
