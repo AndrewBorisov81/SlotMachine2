@@ -18,7 +18,7 @@ public:
     
     static Reel* create(std::vector<std::vector<int>> wheelDatas);
 
-    virtual bool initWithData(std::vector<std::vector<int>> wheelDatas);
+    bool initWithData(std::vector<std::vector<int>> wheelDatas);
 private:
     Reel() = default;
     
@@ -28,5 +28,4 @@ private:
 };
 
 #endif //__REEL_H__
-
 

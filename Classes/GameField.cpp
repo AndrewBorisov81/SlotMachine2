@@ -68,31 +68,33 @@ bool GameField::init()
   };
     
   Reel* reel = Reel::create(reelData);
+  reel->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+  this->addChild(reel, 40);
     
   //Frame Slot Machine
   auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
   frameSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-  this->addChild(frameSprite, 40);
+  //this->addChild(frameSprite, 40);
     
   Size frameSize = frameSprite->getContentSize();
     
   //slot machine
-  SlotMachine* slotMachine1 = new SlotMachine(jsonData1);
+  /*SlotMachine* slotMachine1 = new SlotMachine(jsonData1);
   slotMachine1->setPosition(Vec2(0.19 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine1, 30);
-  _slotMachine1 = slotMachine1;
+  _slotMachine1 = slotMachine1;*/
     
   //slot machine
-  SlotMachine* slotMachine2 = new SlotMachine(jsonData2);
+  /*SlotMachine* slotMachine2 = new SlotMachine(jsonData2);
   slotMachine2->setPosition(Vec2(0.38 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine2, 30);
-  _slotMachine2 = slotMachine2;
+  _slotMachine2 = slotMachine2;*/
     
   //slot machine
-  SlotMachine* slotMachine3 = new SlotMachine(jsonData3);
+  /*SlotMachine* slotMachine3 = new SlotMachine(jsonData3);
   slotMachine3->setPosition(Vec2(0.57 * frameSize.width, 0.5 * frameSize.height));
   frameSprite->addChild(slotMachine3, 30);
-  _slotMachine3 = slotMachine3;
+  _slotMachine3 = slotMachine3;*/
 
   //create spin button
   auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -105,7 +107,7 @@ bool GameField::init()
   spinLabel->setPosition(Vec2(0.4 * buttonSize.width , 1.3 * buttonSize.height));
   spinButton->addChild(spinLabel, 3);
     
-  spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
+  /*spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
   if (type == Widget::TouchEventType::ENDED)
   {
     slotMachine1->startStopMachine(targetCell1);
@@ -129,13 +131,13 @@ bool GameField::init()
         }
     }
   });
-  this->addChild(spinButton, 40);
+  this->addChild(spinButton, 40);*/
 
-  auto move = MoveBy::create(1, Vec2(0, 1.2 * buttonSize.height));
+  /*auto move = MoveBy::create(1, Vec2(0, 1.2 * buttonSize.height));
   // create a Ease Elastic Out Action
   auto move_ease_out = EaseElasticOut::create(move->clone());
   auto seq = Sequence::create(move_ease_out, nullptr);
-  spinButton->runAction(seq);
+  spinButton->runAction(seq);*/
     
   //create bet button
   auto betButton = Button::create(Constants::SPIN_BUTTON_NORMAL

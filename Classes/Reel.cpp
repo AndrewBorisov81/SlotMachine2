@@ -6,6 +6,10 @@
 //
 
 #include "Reel.h"
+#include "SlotMachine.h"
+#include "Constants.h"
+
+USING_NS_CC;
 
 Reel* Reel::create(std::vector<std::vector<int>> wheelDatas)
 {
@@ -24,5 +28,26 @@ bool Reel::initWithData(std::vector<std::vector<int>> wheelDatas)
     return false;
 
     _wheelDatas = std::move(wheelDatas);
+    
+    //Frame Slot Machine
+    auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
+    //frameSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    this->addChild(frameSprite, 40);
+      
+    Size frameSize = frameSprite->getContentSize();
+    
+    std::vector<double> kShiftX = {0.19, 0.38, 0.57};
+    
+    for (int i=0; i < _wheelDatas.size(); i++)
+    {
+        //slot machine
+        //SlotMachine* slotMachine = new SlotMachine(wheelDatas[i]);
+        auto slotMachine = SlotMachine::create(_wheelDatas[i]);
+        slotMachine->setPosition(Vec2(kShiftX[i] * frameSize.width, 0.5 * frameSize.height));
+        frameSprite->addChild(slotMachine, 30);
+        _slotMachines.push_back(slotMachine);
+    }
+    
     return true;
 }
+

@@ -7,23 +7,43 @@
 
 USING_NS_CC;
 
-SlotMachine::SlotMachine(const std::vector<int>& boxData): _boxData(boxData)
+SlotMachine* SlotMachine::create(std::vector<int> boxData)
 {
-  //Create wheel
-  Wheel* wheel = new Wheel(_boxData);
-  this->addChild(wheel);
-
-  _wheel = wheel;
-
-  Size cellSize = wheel->getCellSize();
-  _cellSize = cellSize;
+  SlotMachine* p = new SlotMachine();
+  if (p && p->initWithData(boxData)) {
+    p->autorelease();
+    return p;
+  }
+  CC_SAFE_DELETE(p);
     
-  _maxShiftPos = 0.1 * _cellSize.height;
+  return nullptr;
 
-  Vec2 wheelPos = Vec2(0, -cellSize.height);
-  wheel->setPosition(wheelPos);
+}
 
-  this->scheduleUpdate();
+bool SlotMachine::initWithData(std::vector<int> wheelDatas)
+{
+    if (!Node::init())
+        return false;
+    
+    _boxData = wheelDatas;
+    
+    //Create wheel
+    Wheel* wheel = new Wheel(wheelDatas);
+    this->addChild(wheel);
+
+    _wheel = wheel;
+
+    Size cellSize = wheel->getCellSize();
+    _cellSize = cellSize;
+      
+    _maxShiftPos = 0.1 * _cellSize.height;
+
+    Vec2 wheelPos = Vec2(0, -cellSize.height);
+    wheel->setPosition(wheelPos);
+    
+    this->scheduleUpdate();
+    
+    return true;
 }
 
 void SlotMachine::startStopMachine(int targetCell)
@@ -269,9 +289,11 @@ void SlotMachine::setState(State state)
     
     switch(_state){
         case State::STOP:
+            this->unscheduleUpdate();
             break;
             
         case State::ACCELERATION:
+            this->scheduleUpdate();
             break;
             
         case State::SPIN:
