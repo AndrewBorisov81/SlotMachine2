@@ -19,6 +19,12 @@ public:
     static Reel* create(std::vector<std::vector<int>> wheelDatas);
 
     bool initWithData(std::vector<std::vector<int>> wheelDatas);
+    
+    void startStopMachine(std::vector<int> targetCell);
+    
+    bool allWillsStopped();
+    bool allWillsSpin();
+    
 private:
     Reel() = default;
     

@@ -41,13 +41,61 @@ bool Reel::initWithData(std::vector<std::vector<int>> wheelDatas)
     for (int i=0; i < _wheelDatas.size(); i++)
     {
         //slot machine
-        //SlotMachine* slotMachine = new SlotMachine(wheelDatas[i]);
         auto slotMachine = SlotMachine::create(_wheelDatas[i]);
         slotMachine->setPosition(Vec2(kShiftX[i] * frameSize.width, 0.5 * frameSize.height));
         frameSprite->addChild(slotMachine, 30);
         _slotMachines.push_back(slotMachine);
     }
     
+    return true;
+}
+
+
+void Reel::startStopMachine(std::vector<int> targetCell)
+{
+    std::vector<float> delay = { 0, 0.2f, 0.4f };
+    
+    if(allWillsSpin() == true || allWillsStopped() == true)
+    {
+        for(int i=0; i < _slotMachines.size(); i++) {
+            auto slotMachine = _slotMachines[i];
+            
+            if(slotMachine->getState() == SlotMachine::State::STOP) {
+                this->runAction(Sequence::create
+                                 (DelayTime::create(delay[i]),   // delay in seconds
+                                  CallFunc::create([this, i, slotMachine, targetCell]()
+                                  {
+                                    slotMachine->startStopMachine(targetCell[i]);
+                                  }),
+                                  nullptr
+                                 )
+                             );
+            } else {
+                slotMachine->startStopMachine(targetCell[i]);
+            }
+        }
+    }
+}
+
+bool Reel::allWillsStopped() {
+    for(auto slotMachine: _slotMachines)
+    {
+        if(slotMachine->getState() != SlotMachine::State::STOP)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Reel::allWillsSpin() {
+    for(auto slotMachine: _slotMachines)
+    {
+        if(slotMachine->getState() != SlotMachine::State::SPIN)
+        {
+            return false;
+        }
+    }
     return true;
 }
 
