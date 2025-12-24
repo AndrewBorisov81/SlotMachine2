@@ -38,8 +38,8 @@ void SlotMachineLogic::spin(std::vector<int> wheelsTargetData, int bet)
  {
      _results.clear();
 
-    for (int i = 0; i < 3; i++) {
-        //_results.push_back(static_cast<Symbol>(_reels[i]));
+    for (int i = 0; i < 3; ++i) {
+        _results.push_back(static_cast<Symbol>(wheelsTargetData[i]));
     }
 
     return _results;
