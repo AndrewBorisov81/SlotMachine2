@@ -10,6 +10,8 @@
 
 #include "cocos2d.h"
 
+class SlotMachine;
+
 enum class Symbol
 {
     HORSESHOE = 0,
@@ -41,10 +43,15 @@ public:
     
     void play();
     int getBalance() const;
+    int calculateWin(int bet);
+    void spin(int bet);
     
 private:
    int _balance;
    int _bet;
+    
+   std::vector<SlotMachine*> _reels;
+   std::vector<Symbol> _results;
     
    void checkWin(const std::vector<int>& reels);
 };
