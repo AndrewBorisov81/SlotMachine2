@@ -16,9 +16,9 @@ class Reel: public cocos2d::Node
 {
 public:
     
-    static Reel* create(std::vector<std::vector<int>> wheelDatas);
+    static Reel* create(std::vector<std::vector<int>> wheelsDatas);
 
-    bool initWithData(std::vector<std::vector<int>> wheelDatas);
+    bool initWithData(std::vector<std::vector<int>> wheelsDatas);
     
     void startStopMachine(std::vector<int> targetCell);
     

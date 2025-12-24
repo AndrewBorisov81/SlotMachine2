@@ -13,8 +13,6 @@ class SlotMachine: public cocos2d::Node
 public:
   enum class State { STOP, ACCELERATION, SPIN, SPIN_FIND_TARGET, BREAK };
   
-    
-  //SlotMachine(const std::vector<int>& boxData);
   static SlotMachine* create(std::vector<int> data);
     
   bool initWithData(std::vector<int> wheelDatas);

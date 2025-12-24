@@ -39,14 +39,16 @@ class SlotMachineLogic: public cocos2d::Node
 {
     
 public:
-    SlotMachineLogic();
+    SlotMachineLogic(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells);
     
     void play();
     int getBalance() const;
     int calculateWin(int bet);
-    void spin(int bet);
+    void spin(std::vector<int> wheelsTargetData, int bet);
     
 private:
+    std::vector<int> _targetCells;
+    
    int _balance;
    int _bet;
     

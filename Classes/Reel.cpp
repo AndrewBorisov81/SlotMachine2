@@ -11,10 +11,10 @@
 
 USING_NS_CC;
 
-Reel* Reel::create(std::vector<std::vector<int>> wheelDatas)
+Reel* Reel::create(std::vector<std::vector<int>> wheelsDatas)
 {
   Reel* p = new Reel();
-  if (p && p->initWithData(wheelDatas)) {
+  if (p && p->initWithData(wheelsDatas)) {
     p->autorelease();
     return p;
 }
