@@ -15,25 +15,6 @@ SlotMachineLogic::SlotMachineLogic():
     
 }
 
-void SlotMachineLogic::checkWin(const std::vector<std::string>& reels)
-{
-  if (reels[0] == reels[1] && reels[1] == reels[2]) {
-    int win = _bet * 5;
-    _balance += win;
-    std::cout << "🎉 JACKPOT! You win " << win << "\n";
-  }
-  else if (reels[0] == reels[1] ||
-    reels[1] == reels[2] ||
-    reels[0] == reels[2]) {
-    int win = _bet * 2;
-    _balance += win;
-      std::cout << "🙂 Small win! You win " << win << "\n";
-    }
-    else {
-      std::cout << "😢 You lose!\n";
-  }
-}
-
 void SlotMachineLogic::play()
 {
   if (_balance < _bet) {
@@ -47,4 +28,18 @@ void SlotMachineLogic::play()
 int SlotMachineLogic::getBalance() const
 {
     
+}
+
+void SlotMachineLogic::checkWin(const std::vector<int>& reels)
+{
+    // example: simple 3-match
+    if (reels.size() < 3)
+        return;
+
+    if (reels[0] == reels[1]) {
+        
+    } else if (reels[0] == reels[1] && reels[1] == reels[2])
+    {
+        _balance += _bet * 5; // win
+    }
 }

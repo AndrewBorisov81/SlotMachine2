@@ -9,6 +9,8 @@ USING_NS_CC;
 
 Cell::Cell(int numberData, int cellsCounter):_cellNumberData(numberData), _cellsCounter(cellsCounter)
 {
+  _cellType = static_cast<CellType>(_cellNumberData);
+    
   //Frame
   auto mySprite = Sprite::createWithSpriteFrameName(CELLS[_cellNumberData]);
   this->addChild(mySprite, 10);
@@ -41,4 +43,9 @@ int Cell::getCurrentCellsCounter() const
 void Cell::setCellsCounter(int cellsCounter)
 {
     _cellsCounter = cellsCounter;
+}
+
+Cell::CellType Cell::getCellType() const
+{
+    return _cellType;
 }

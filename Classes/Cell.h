@@ -10,22 +10,25 @@
 
 class Cell: public cocos2d::Node
 {
-    
-  enum class CellType {
-        
-  };
-    
+    enum class CellType {
+      HORSESHOE = 0, HEART, CHERRY, LEMON
+    };
 public:
+    
   Cell(int numberData, int maxSizeData);
 
   cocos2d::Size getCellSize() const;
     
   int getCurrentCellsCounter() const;
   void setCellsCounter(int cellsCounter);
+    
+  CellType getCellType() const;
 
 private:
 
   cocos2d::Size _cellSize { 0, 0 };
+  // type cell
+  CellType _cellType{CellType::HORSESHOE};
   //type of Cell(
   int _cellNumberData;
   //label on the wheel
@@ -42,4 +45,3 @@ private:
 };
 
 #endif // __CELL_H__
-
