@@ -39,7 +39,8 @@ class SlotMachineLogic: public cocos2d::Node
 {
     
 public:
-    SlotMachineLogic(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells);
+    
+    static SlotMachineLogic* SlotMachineLogic(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells);
     
     void play();
     int getBalance() const;

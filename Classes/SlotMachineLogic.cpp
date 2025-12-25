@@ -11,13 +11,36 @@
 #include <iostream>
 #include <vector>
 
-SlotMachineLogic::SlotMachineLogic(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells):
+SlotMachineLogic* SlotMachineLogic::create(std::vector<std::vector<int>> wheelsData,
+                                             std::vector<int> targetCells)
+{
+  SlotMachineLogic* p = new SlotMachineLogic();
+  if (p && p->initWithData(wheelsData, targetCells)) {
+    p->autorelease();
+    return p;
+  }
+  CC_SAFE_DELETE(p);
+    
+  return nullptr;
+
+}
+
+bool SlotMachine::initWithData(std::vector<std::vector<int>> wheelsData,
+                               std::vector<int> targetCells)
+{
+    if (!Node::init())
+        return false;
+    
+    return true;
+}
+
+/*SlotMachineLogic::SlotMachineLogic(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells):
   _balance{100},
   _bet{10},
   _targetCells{std::move(targetCells)}
 {
     
-}
+}*/
 
 void SlotMachineLogic::play()
 {
