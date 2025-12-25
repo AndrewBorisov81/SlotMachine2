@@ -25,22 +25,18 @@ SlotMachineLogic* SlotMachineLogic::create(std::vector<std::vector<int>> wheelsD
 
 }
 
-bool SlotMachine::initWithData(std::vector<std::vector<int>> wheelsData,
+bool SlotMachineLogic::initWithData(std::vector<std::vector<int>> wheelsData,
                                std::vector<int> targetCells)
 {
     if (!Node::init())
         return false;
     
+    _balance = 100;
+    _bet = 10;
+    _targetCells = std::move(targetCells);
+    
     return true;
 }
-
-/*SlotMachineLogic::SlotMachineLogic(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells):
-  _balance{100},
-  _bet{10},
-  _targetCells{std::move(targetCells)}
-{
-    
-}*/
 
 void SlotMachineLogic::play()
 {
