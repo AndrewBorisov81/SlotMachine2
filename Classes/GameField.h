@@ -17,9 +17,7 @@ public:
     CREATE_FUNC(GameField);
     
 private:
-    SlotMachine* _slotMachine1 = nullptr;
-    SlotMachine* _slotMachine2 = nullptr;
-    SlotMachine* _slotMachine3 = nullptr;
+    
 };
 
 #endif // __GAME_FIELD_H__

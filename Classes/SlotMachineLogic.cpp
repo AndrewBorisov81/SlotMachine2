@@ -77,3 +77,8 @@ int SlotMachineLogic::calculateWin(int bet)
         _balance += _bet * PayTable::getMultiplier(_results[0]); // win
     }
 }
+
+void SlotMachineLogic::spinFinished(int win)
+{
+    bool stop = true;
+}

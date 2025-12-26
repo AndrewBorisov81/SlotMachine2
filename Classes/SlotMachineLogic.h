@@ -50,6 +50,8 @@ public:
     int calculateWin(int bet);
     void spin(std::vector<int> wheelsTargetData, int bet);
     
+    void spinFinished(int win);
+    
 private:
     SlotMachineLogic() = default;
     std::vector<int> _targetCells;

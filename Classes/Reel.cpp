@@ -72,6 +72,11 @@ void Reel::startStopMachine(std::vector<int> targetCell)
                              );
             } else {
                 slotMachine->startStopMachine(targetCell[i]);
+                
+                int win = 500;
+                
+                if (_onSpinFinished)
+                    _onSpinFinished(win);
             }
         }
     }
@@ -99,3 +104,7 @@ bool Reel::allWillsSpin() {
     return true;
 }
 
+void Reel::setOnSpinFinished(SpinCallback cb)
+{
+  _onSpinFinished = std::move(cb);
+}

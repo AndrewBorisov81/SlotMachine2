@@ -1,5 +1,6 @@
 #include "GameField.h"
 #include "SlotMachine.h"
+#include "SlotMachineLogic.h"
 //#include "SimpleAudioEngine.h"
 #include "Constants.h"
 #include "Reel.h"
@@ -67,19 +68,26 @@ bool GameField::init()
     jsonData3
   };
     
-  const std::vector<int> targetCells = { targetCell1, targetCell2, targetCell3 };
+    std::vector<std::vector<int>> targetCells = { {targetCell1, targetCell2, targetCell3},
+                                                        {11, 14, 15},
+                                                        {5, 7, 19},
+                                                        {1, 19, 17}
+                                                                                              };
 
   // Reel
   Reel* reel = Reel::create(reelData);
   reel->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
   this->addChild(reel, 40);
     
-  //Frame Slot Machine
-  auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
-  frameSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-  //this->addChild(frameSprite, 40);
+  // SlotMachineLogic
+  SlotMachineLogic* SMLogic = SlotMachineLogic::create(reelData, targetCells[0]);
+  this->addChild(SMLogic);
     
-  Size frameSize = frameSprite->getContentSize();
+  int win = 500;
+  // Callback spinFinished
+  reel->setOnSpinFinished([SMLogic](int win) {
+      SMLogic->spinFinished(win);
+  });
     
   //create spin button
   auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
@@ -97,7 +105,7 @@ bool GameField::init()
     spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
         if (type == Widget::TouchEventType::ENDED)
         {
-            reel->startStopMachine(targetCells);
+            reel->startStopMachine(targetCells[0]);
         }
     });
 
