@@ -17,6 +17,7 @@ public:
     CREATE_FUNC(GameField);
     
 private:
+    auto _betCountLabel;
     
 };
 

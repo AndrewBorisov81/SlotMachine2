@@ -116,6 +116,11 @@ bool GameField::init()
   auto betLabel = Label::createWithTTF("BET", "fonts/Marker Felt.ttf", 10);
   betLabel->setPosition(Vec2(0.4 * buttonSize1.width , 1.2 * buttonSize1.height));
   betButton->addChild(betLabel, 50);
+    
+  auto betCountLabel = Label::createWithTTF("1000", "fonts/Marker Felt.ttf", 15);
+  betCountLabel->setPosition(Vec2(visibleSize.width + origin.x - 3.5 * buttonSize1.width, 0.65 * buttonSize1.height));
+  this->addChild(betCountLabel, 50);
+  _betCountLabel = betCountLabel;
   
   return true;
 }
