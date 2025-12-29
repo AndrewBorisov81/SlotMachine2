@@ -25,10 +25,14 @@ public:
 
     bool initWithData(std::vector<std::vector<int>> wheelsDatas);
     
+    void update(float) override;
+    
     void startStopMachine(std::vector<int> targetCell);
     
-    bool allWillsStopped();
-    bool allWillsSpin();
+    bool allWheelsStopped();
+    bool allWheelsSpin();
+    bool allWheelsBreak();
+    bool allWheelsFindTarget();
     
 private:
     Reel() = default;

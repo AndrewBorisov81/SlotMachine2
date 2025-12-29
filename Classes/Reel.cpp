@@ -47,15 +47,29 @@ bool Reel::initWithData(std::vector<std::vector<int>> wheelDatas)
         _slotMachines.push_back(slotMachine);
     }
     
+    this->scheduleUpdate();   // start updates
+    
     return true;
 }
 
+bool _wheelSpinned = false;
+
+void Reel::update(float delta)
+{
+    if(allWheelsSpin() && !_wheelSpinned) _wheelSpinned = true;
+    if(allWheelsStopped() && _wheelSpinned){
+        _wheelSpinned = false;
+            int win = 500;
+            if (_onSpinFinished)
+                _onSpinFinished(win);
+        }
+}
 
 void Reel::startStopMachine(std::vector<int> targetCell)
 {
     std::vector<float> delay = { 0, 0.2f, 0.4f };
     
-    if(allWillsSpin() == true || allWillsStopped() == true)
+    if(allWheelsSpin() == true || allWheelsStopped() == true)
     {
         for(int i=0; i < _slotMachines.size(); i++) {
             auto slotMachine = _slotMachines[i];
@@ -72,17 +86,12 @@ void Reel::startStopMachine(std::vector<int> targetCell)
                              );
             } else {
                 slotMachine->startStopMachine(targetCell[i]);
-                
-                int win = 500;
-                
-                if (_onSpinFinished)
-                    _onSpinFinished(win);
             }
         }
     }
 }
 
-bool Reel::allWillsStopped() {
+bool Reel::allWheelsStopped() {
     for(auto slotMachine: _slotMachines)
     {
         if(slotMachine->getState() != SlotMachine::State::STOP)
@@ -93,10 +102,32 @@ bool Reel::allWillsStopped() {
     return true;
 }
 
-bool Reel::allWillsSpin() {
+bool Reel::allWheelsSpin() {
     for(auto slotMachine: _slotMachines)
     {
         if(slotMachine->getState() != SlotMachine::State::SPIN)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Reel::	allWheelsBreak() {
+    for(auto slotMachine: _slotMachines)
+    {
+        if(slotMachine->getState() != SlotMachine::State::BREAK)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Reel::allWheelsFindTarget() {
+    for(auto slotMachine: _slotMachines)
+    {
+        if(slotMachine->getState() != SlotMachine::State::SPIN_FIND_TARGET)
         {
             return false;
         }
