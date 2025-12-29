@@ -7,7 +7,6 @@
 
 #include "Reel.h"
 #include "SlotMachine.h"
-#include "SlotMachineLogic.h"
 #include "Constants.h"
 
 USING_NS_CC;
@@ -29,20 +28,9 @@ bool Reel::initWithData(std::vector<std::vector<int>> wheelDatas)
     return false;
 
     _wheelDatas = std::move(wheelDatas);
-    // SlotMachineLogic
-    SlotMachineLogic* sMLogic = SlotMachineLogic::create(wheelDatas);
-    _sMLogic = std::move(sMLogic);
-    this->addChild(_sMLogic);
-    
-    int win = 500;
-    // Callback spinFinished
-    this->setOnSpinFinished([this](int win) {
-        _sMLogic->spinFinished(win);
-    });
     
     //Frame Slot Machine
     auto frameSprite = Sprite::create(Constants::FRAME_WHEEL);
-    //frameSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     this->addChild(frameSprite, 40);
       
     Size frameSize = frameSprite->getContentSize();
@@ -78,9 +66,9 @@ void Reel::update(float delta)
 
 void Reel::startStopMachine(std::vector<int> targetCell)
 {
-    if(allWheelsStopped() == true) {
+    /*if(allWheelsStopped() == true) {
         if(!_sMLogic->play()) return;
-    }
+    }*/
     
     std::vector<float> delay = { 0, 0.2f, 0.4f };
     

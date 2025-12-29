@@ -79,6 +79,17 @@ bool GameField::init()
   reel->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
   this->addChild(reel, 40);
     
+  // SlotMachineLogic
+  SlotMachineLogic* sMLogic = SlotMachineLogic::create(reelData);
+  _sMLogic = std::move(sMLogic);
+  this->addChild(_sMLogic);
+    
+    int win = 500;
+    // Callback spinFinished
+    reel->setOnSpinFinished([this](int win) {
+        _sMLogic->spinFinished(win);
+    });
+    
   //create spin button
   auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
                                      , Constants::SPIN_BUTTON_SELECTED, Constants::SPIN_BUTTON_NORMAL);
@@ -95,6 +106,10 @@ bool GameField::init()
     spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
         if (type == Widget::TouchEventType::ENDED)
         {
+            if(reel->allWheelsStopped() == true) {
+                if(!_sMLogic->play()) return;
+            }
+            
             reel->startStopMachine(targetCells[0]);
         }
     });
@@ -110,13 +125,14 @@ bool GameField::init()
                                        , Constants::SPIN_BUTTON_SELECTED, Constants::SPIN_BUTTON_NORMAL);
   Size buttonSize1 = betButton->getContentSize();
     
-  betButton->setPosition(Vec2(visibleSize.width + origin.x - 2 * buttonSize1.width, 0.65 * buttonSize1.height));
+  betButton->setPosition(Vec2(visibleSize.width + origin.x - 1.8 * buttonSize1.width, 0.65 * buttonSize1.height));
   betButton->setPressedActionEnabled(true);
   this->addChild(betButton, 40);
   betButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
     {
-      
+        int currentBet = _sMLogic->increaseBet(100);
+        _betCountLabel->setString(std::to_string(currentBet));
     }
   });
     
@@ -125,8 +141,8 @@ bool GameField::init()
   betLabel->setPosition(Vec2(0.4 * buttonSize1.width , 1.2 * buttonSize1.height));
   betButton->addChild(betLabel, 50);
     
-  auto betCountLabel = Label::createWithTTF("1000", "fonts/Marker Felt.ttf", 15);
-  betCountLabel->setPosition(Vec2(visibleSize.width + origin.x - 3.5 * buttonSize1.width, 0.65 * buttonSize1.height));
+  auto betCountLabel = Label::createWithTTF("100", "fonts/Marker Felt.ttf", 15);
+  betCountLabel->setPosition(Vec2(visibleSize.width + origin.x - 3.1 * buttonSize1.width, 0.65 * buttonSize1.height));
   this->addChild(betCountLabel, 50);
   _betCountLabel = betCountLabel;
   

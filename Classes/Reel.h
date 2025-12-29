@@ -12,7 +12,6 @@
 #include <vector>
 
 class SlotMachine;
-class SlotMachineLogic;
 
 class Reel: public cocos2d::Node
 {
@@ -40,7 +39,7 @@ private:
     
     std::vector<SlotMachine*> _slotMachines;
     
-    SlotMachineLogic* _sMLogic;
+    //SlotMachineLogic* _sMLogic;
     
     std::vector<std::vector<int>> _wheelDatas;
     

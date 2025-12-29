@@ -5,6 +5,7 @@
 #include "ui/CocosGUI.h"
 
 class SlotMachine;
+class SlotMachineLogic;
 
 class GameField: public cocos2d::Layer
 {
@@ -18,6 +19,7 @@ public:
     
 private:
     cocos2d::Label* _betCountLabel;
+    SlotMachineLogic* _sMLogic;
     
 };
 

@@ -29,7 +29,7 @@ bool SlotMachineLogic::initWithData(std::vector<std::vector<int>> wheelsData)
     if (!Node::init())
         return false;
     
-    _balance = 100;
+    _balance = 300;
     _bet = 100;
     
     return true;
@@ -74,6 +74,19 @@ int SlotMachineLogic::calculateWin(int bet)
     {
         _balance += _bet * PayTable::getMultiplier(_results[0]); // win
     }
+}
+
+int SlotMachineLogic::increaseBet(int increaseBet)
+{
+    int maxBet = 1000;
+    if(_bet < maxBet) {
+        _bet += increaseBet;
+    }
+    else
+    {
+        _bet = 100;
+    }
+    return _bet;
 }
 
 void SlotMachineLogic::spinFinished(int win)
