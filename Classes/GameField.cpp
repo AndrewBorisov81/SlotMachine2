@@ -109,9 +109,17 @@ bool GameField::init()
   auto betButton = Button::create(Constants::SPIN_BUTTON_NORMAL
                                        , Constants::SPIN_BUTTON_SELECTED, Constants::SPIN_BUTTON_NORMAL);
   Size buttonSize1 = betButton->getContentSize();
+    
   betButton->setPosition(Vec2(visibleSize.width + origin.x - 2 * buttonSize1.width, 0.65 * buttonSize1.height));
   betButton->setPressedActionEnabled(true);
   this->addChild(betButton, 40);
+  betButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
+    if (type == Widget::TouchEventType::ENDED)
+    {
+      
+    }
+  });
+    
   // bet text label
   auto betLabel = Label::createWithTTF("BET", "fonts/Marker Felt.ttf", 10);
   betLabel->setPosition(Vec2(0.4 * buttonSize1.width , 1.2 * buttonSize1.height));

@@ -17,7 +17,7 @@ public:
     CREATE_FUNC(GameField);
     
 private:
-    auto _betCountLabel;
+    cocos2d::Label* _betCountLabel;
     
 };
 
