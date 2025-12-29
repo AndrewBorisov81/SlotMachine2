@@ -11,11 +11,10 @@
 #include <iostream>
 #include <vector>
 
-SlotMachineLogic* SlotMachineLogic::create(std::vector<std::vector<int>> wheelsData,
-                                             std::vector<int> targetCells)
+SlotMachineLogic* SlotMachineLogic::create(std::vector<std::vector<int>> wheelsData)
 {
   SlotMachineLogic* p = new SlotMachineLogic();
-  if (p && p->initWithData(wheelsData, targetCells)) {
+  if (p && p->initWithData(wheelsData)) {
     p->autorelease();
     return p;
   }
@@ -25,27 +24,26 @@ SlotMachineLogic* SlotMachineLogic::create(std::vector<std::vector<int>> wheelsD
 
 }
 
-bool SlotMachineLogic::initWithData(std::vector<std::vector<int>> wheelsData,
-                               std::vector<int> targetCells)
+bool SlotMachineLogic::initWithData(std::vector<std::vector<int>> wheelsData)
 {
     if (!Node::init())
         return false;
     
     _balance = 100;
-    _bet = 10;
-    _targetCells = std::move(targetCells);
+    _bet = 100;
     
     return true;
 }
 
-void SlotMachineLogic::play()
+bool SlotMachineLogic::play()
 {
-  if (_balance < _bet) {
-    std::cout << "Not enough balance!\n";
-    return;
+    if (_balance < _bet) {
+      std::cout << "Not enough balance!\n";
+      return false;
   }
     
   _balance -= _bet;
+    return true;
 }
 
 int SlotMachineLogic::getBalance() const

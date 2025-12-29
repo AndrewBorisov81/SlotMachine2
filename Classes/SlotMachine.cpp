@@ -1,4 +1,5 @@
 #include "SlotMachine.h"
+#include "SlotMachineLogic.h"
 #include "Wheel.h"
 #include "Constants.h"
 #include "Cell.h"
@@ -10,7 +11,7 @@ USING_NS_CC;
 SlotMachine* SlotMachine::create(std::vector<int> boxData)
 {
   SlotMachine* p = new SlotMachine();
-  if (p && p->initWithData(boxData)) {
+    if (p && p->initWithData(boxData)) {
     p->autorelease();
     return p;
   }

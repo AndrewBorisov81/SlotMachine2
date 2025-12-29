@@ -5,6 +5,7 @@
 
 class Wheel;
 class Cell;
+class SlotMachineLogic;
 
 
 class SlotMachine: public cocos2d::Node
@@ -40,6 +41,8 @@ private:
   SlotMachine() = default;
     
   std::vector<int> _boxData;
+    
+  SlotMachineLogic* _sMLogic;
 
   Wheel* _wheel;
     

@@ -79,16 +79,6 @@ bool GameField::init()
   reel->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
   this->addChild(reel, 40);
     
-  // SlotMachineLogic
-  SlotMachineLogic* SMLogic = SlotMachineLogic::create(reelData, targetCells[0]);
-  this->addChild(SMLogic);
-    
-  int win = 500;
-  // Callback spinFinished
-  reel->setOnSpinFinished([SMLogic](int win) {
-      SMLogic->spinFinished(win);
-  });
-    
   //create spin button
   auto spinButton = Button::create(Constants::SPIN_BUTTON_NORMAL
                                      , Constants::SPIN_BUTTON_SELECTED, Constants::SPIN_BUTTON_NORMAL);

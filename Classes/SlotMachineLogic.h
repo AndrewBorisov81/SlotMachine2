@@ -40,12 +40,11 @@ class SlotMachineLogic: public cocos2d::Node
     
 public:
     
-    static SlotMachineLogic* create(std::vector<std::vector<int>> wheelsData, std::vector<int> targetCells);
+    static SlotMachineLogic* create(std::vector<std::vector<int>> wheelsData);
     
-    bool initWithData(std::vector<std::vector<int>> wheelsData,
-                      std::vector<int> targetCells);
+    bool initWithData(std::vector<std::vector<int>> wheelsData);
     
-    void play();
+    bool play();
     int getBalance() const;
     int calculateWin(int bet);
     void spin(std::vector<int> wheelsTargetData, int bet);
@@ -56,8 +55,8 @@ private:
     SlotMachineLogic() = default;
     std::vector<int> _targetCells;
     
-   int _balance;
-   int _bet;
+    int _balance;
+    int _bet;
     
    std::vector<SlotMachine*> _reels;
    std::vector<Symbol> _results;
