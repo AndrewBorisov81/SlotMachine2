@@ -59,7 +59,7 @@ bool GameField::init()
     
   // When to stop wheel cell
   int targetCell1 = 12;
-  int targetCell2 = 14;
+  int targetCell2 = 15;
   int targetCell3 = 9;
     
   const std::vector<std::vector<int>> reelData = {
@@ -68,14 +68,15 @@ bool GameField::init()
     jsonData3
   };
     
-    std::vector<std::vector<int>> targetCells = { {targetCell1, targetCell2, targetCell3},
-                                                        {11, 14, 15},
-                                                        {5, 7, 19},
-                                                        {1, 19, 17}
-                                                                                              };
+    std::vector<std::vector<int>> targetCells = { {targetCell1, targetCell2, targetCell3 },
+                                                        { 11, 14, 15 },
+                                                        { 5, 7, 19 },
+                                                        { 1, 19, 17 } };
+    _currentBet = 100;
 
   // Reel
   Reel* reel = Reel::create(reelData);
+  _reel = reel;
   reel->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
   this->addChild(reel, 40);
     
@@ -103,14 +104,21 @@ bool GameField::init()
   spinButton->addChild(spinLabel, 3);
     
 
-    spinButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
+    spinButton->addTouchEventListener([this, reelData, targetCells](Ref* pSender, Widget::TouchEventType type){
         if (type == Widget::TouchEventType::ENDED)
         {
-            if(reel->allWheelsStopped() == true) {
-                if(!_sMLogic->play()) return;
+            if(_reel->allWheelsStopped() == true) {
+                if(!_sMLogic->play())
+                {
+                    return;
+                } else {
+                    //int currentBet = 100;
+                    _sMLogic->spin(targetCells[0], _currentBet);
+                    _sMLogic->calculateWin(_currentBet);
+                }
             }
             
-            reel->startStopMachine(targetCells[0]);
+            _reel->startStopMachine(targetCells[0]);
         }
     });
 
@@ -128,10 +136,11 @@ bool GameField::init()
   betButton->setPosition(Vec2(visibleSize.width + origin.x - 1.8 * buttonSize1.width, 0.65 * buttonSize1.height));
   betButton->setPressedActionEnabled(true);
   this->addChild(betButton, 40);
-  betButton->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type){
+  betButton->addTouchEventListener([this](Ref* pSender, Widget::TouchEventType type){
     if (type == Widget::TouchEventType::ENDED)
     {
         int currentBet = _sMLogic->increaseBet(100);
+        _currentBet = currentBet;
         _betCountLabel->setString(std::to_string(currentBet));
     }
   });
@@ -145,6 +154,18 @@ bool GameField::init()
   betCountLabel->setPosition(Vec2(visibleSize.width + origin.x - 3.1 * buttonSize1.width, 0.65 * buttonSize1.height));
   this->addChild(betCountLabel, 50);
   _betCountLabel = betCountLabel;
+    
+  // balance
+  auto balanceLabel = Label::createWithTTF("Balance: ", "fonts/Marker Felt.ttf", 15);
+  balanceLabel->setPosition(Vec2(0.8 * visibleSize.width + origin.x, 0.95 * visibleSize.height + origin.y));
+  this->addChild(balanceLabel, 50);
+    
+    /*if (_balanceLabel)
+        {
+            _balanceLabel->setString(
+                "Balance: " + std::to_string(balance)
+            );
+        }*/
   
   return true;
 }

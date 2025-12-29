@@ -6,6 +6,7 @@
 
 class SlotMachine;
 class SlotMachineLogic;
+class Reel;
 
 class GameField: public cocos2d::Layer
 {
@@ -19,7 +20,9 @@ public:
     
 private:
     cocos2d::Label* _betCountLabel;
+    Reel* _reel;
     SlotMachineLogic* _sMLogic;
+    int _currentBet;
     
 };
 
