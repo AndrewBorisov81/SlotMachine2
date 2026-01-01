@@ -20,9 +20,11 @@ public:
     
 private:
     cocos2d::Label* _betCountLabel;
+    cocos2d::Label* _balanceLabel;
     Reel* _reel;
     SlotMachineLogic* _sMLogic;
     int _currentBet;
+    int _balance;
     
 };
 

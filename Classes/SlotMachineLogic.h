@@ -47,7 +47,7 @@ public:
     bool play();
     int getBalance() const;
     int calculateWin(int bet);
-    void spin(std::vector<int> wheelsTargetData, int bet);
+    void spinEnded(std::vector<std::vector<int>> reelsData, std::vector<int> wheelsTargetData, int bet);
     int increaseBet(int increaseBet);
     
     void spinFinished(int win);

@@ -51,12 +51,13 @@ int SlotMachineLogic::getBalance() const
     return _balance;
 }
 
-void SlotMachineLogic::spin(std::vector<int> wheelsTargetData, int bet)
+void SlotMachineLogic::spinEnded(std::vector<std::vector<int>> reelsData, std::vector<int> wheelsTargetData, int bet)
  {
      _results.clear();
 
     for (int i = 0; i < 3; ++i) {
-        _results.push_back(static_cast<Symbol>(wheelsTargetData[i]));
+        std::vector<int> reelData = reelsData[i];
+        _results.push_back(static_cast<Symbol>(reelData[(wheelsTargetData[i])-1]));
     }
 
     return _results;

@@ -58,11 +58,11 @@ bool GameField::init()
   };
     
   // When to stop wheel cell
-  int targetCell1 = 12;
-  int targetCell2 = 15;
-  int targetCell3 = 9;
+  int targetCell1 = 13;
+  int targetCell2 = 11;
+  int targetCell3 = 14;
     
-  const std::vector<std::vector<int>> reelData = {
+  const std::vector<std::vector<int>> reelsData = {
     jsonData1,
     jsonData2,
     jsonData3
@@ -75,20 +75,31 @@ bool GameField::init()
     _currentBet = 100;
 
   // Reel
-  Reel* reel = Reel::create(reelData);
+  Reel* reel = Reel::create(reelsData);
   _reel = reel;
   reel->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
   this->addChild(reel, 40);
     
   // SlotMachineLogic
-  SlotMachineLogic* sMLogic = SlotMachineLogic::create(reelData);
+  SlotMachineLogic* sMLogic = SlotMachineLogic::create(reelsData);
   _sMLogic = std::move(sMLogic);
   this->addChild(_sMLogic);
     
     int win = 500;
     // Callback spinFinished
-    reel->setOnSpinFinished([this](int win) {
+    reel->setOnSpinFinished([this, reelsData, targetCells](int win) {
+        // callback
         _sMLogic->spinFinished(win);
+        
+        _sMLogic->spinEnded(reelsData, targetCells[0], _currentBet);
+        _sMLogic->calculateWin(_currentBet);
+        
+        if (_balanceLabel)
+        {
+          _balanceLabel->setString(
+            "Balance: " + std::to_string(_sMLogic->getBalance())
+          );
+        }
     });
     
   //create spin button
@@ -104,7 +115,7 @@ bool GameField::init()
   spinButton->addChild(spinLabel, 3);
     
 
-    spinButton->addTouchEventListener([this, reelData, targetCells](Ref* pSender, Widget::TouchEventType type){
+    spinButton->addTouchEventListener([this, reelsData, targetCells](Ref* pSender, Widget::TouchEventType type){
         if (type == Widget::TouchEventType::ENDED)
         {
             if(_reel->allWheelsStopped() == true) {
@@ -113,8 +124,8 @@ bool GameField::init()
                     return;
                 } else {
                     //int currentBet = 100;
-                    _sMLogic->spin(targetCells[0], _currentBet);
-                    _sMLogic->calculateWin(_currentBet);
+                    /*_sMLogic->spinEnded(targetCells[0], _currentBet);
+                    _sMLogic->calculateWin(_currentBet);*/
                 }
             }
             
@@ -159,13 +170,15 @@ bool GameField::init()
   auto balanceLabel = Label::createWithTTF("Balance: ", "fonts/Marker Felt.ttf", 15);
   balanceLabel->setPosition(Vec2(0.8 * visibleSize.width + origin.x, 0.95 * visibleSize.height + origin.y));
   this->addChild(balanceLabel, 50);
+  _balanceLabel = balanceLabel;
     
-    /*if (_balanceLabel)
-        {
-            _balanceLabel->setString(
-                "Balance: " + std::to_string(balance)
-            );
-        }*/
+    if (_balanceLabel)
+    {
+      _balanceLabel->setString(
+        "Balance: " + std::to_string(_sMLogic->getBalance())
+      );
+    }
   
   return true;
 }
+
