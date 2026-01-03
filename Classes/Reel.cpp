@@ -37,6 +37,7 @@ bool Reel::initWithData(std::vector<std::vector<int>> wheelDatas)
     
     std::vector<double> kShiftX = {0.19, 0.38, 0.57};
     
+    //for (int i=0; i < 1; i++)
     for (int i=0; i < _wheelDatas.size(); i++)
     {
         //slot machine
@@ -66,10 +67,7 @@ void Reel::update(float delta)
 
 void Reel::startStopMachine(std::vector<int> targetCell)
 {
-    /*if(allWheelsStopped() == true) {
-        if(!_sMLogic->play()) return;
-    }*/
-    
+
     std::vector<float> delay = { 0, 0.2f, 0.4f };
     
     if(allWheelsSpin() == true || allWheelsStopped() == true)

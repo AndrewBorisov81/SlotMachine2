@@ -25,6 +25,8 @@ private:
     SlotMachineLogic* _sMLogic;
     int _currentBet;
     int _balance;
+    int _targetCellsCounter;
+    bool _firstTargetCells;
     
 };
 

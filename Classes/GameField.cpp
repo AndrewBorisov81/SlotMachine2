@@ -68,11 +68,13 @@ bool GameField::init()
     jsonData3
   };
     
-    std::vector<std::vector<int>> targetCells = { {targetCell1, targetCell2, targetCell3 },
+  _targetCellsCounter = 0;
+  _firstTargetCells = true;
+  std::vector<std::vector<int>> targetCells = { {targetCell1, targetCell2, targetCell3 },
                                                         { 11, 14, 15 },
                                                         { 5, 7, 19 },
                                                         { 1, 19, 17 } };
-    _currentBet = 100;
+  _currentBet = 100;
 
   // Reel
   Reel* reel = Reel::create(reelsData);
@@ -86,20 +88,21 @@ bool GameField::init()
   this->addChild(_sMLogic);
     
     int win = 500;
+    bool firstSpin = true;
     // Callback spinFinished
-    reel->setOnSpinFinished([this, reelsData, targetCells](int win) {
-        // callback
-        _sMLogic->spinFinished(win);
+    reel->setOnSpinFinished([this, reelsData, targetCells, firstSpin](int win) mutable {
         
-        _sMLogic->spinEnded(reelsData, targetCells[0], _currentBet);
-        _sMLogic->calculateWin(_currentBet);
+    // callback
+    _sMLogic->spinFinished(win);
+    _sMLogic->spinEnded(reelsData, targetCells[_targetCellsCounter], _currentBet);
+    _sMLogic->calculateWin(_currentBet);
         
-        if (_balanceLabel)
-        {
-          _balanceLabel->setString(
-            "Balance: " + std::to_string(_sMLogic->getBalance())
-          );
-        }
+    if (_balanceLabel)
+    {
+      _balanceLabel->setString(
+      "Balance: " + std::to_string(_sMLogic->getBalance())
+      );
+    }
     });
     
   //create spin button
@@ -114,22 +117,26 @@ bool GameField::init()
   spinLabel->setPosition(Vec2(0.4 * buttonSize.width , 1.3 * buttonSize.height));
   spinButton->addChild(spinLabel, 3);
     
-
-    spinButton->addTouchEventListener([this, reelsData, targetCells](Ref* pSender, Widget::TouchEventType type){
+    
+    spinButton->addTouchEventListener([this, reelsData, targetCells, firstSpin] (Ref* pSender,
+                                                                                  Widget::TouchEventType type) mutable
+    {
         if (type == Widget::TouchEventType::ENDED)
         {
             if(_reel->allWheelsStopped() == true) {
+                // Not enough balance!
                 if(!_sMLogic->play())
                 {
                     return;
+                }
+                if(!firstSpin && _targetCellsCounter < (targetCells.size()-1)) {
+                  _targetCellsCounter++;
                 } else {
-                    //int currentBet = 100;
-                    /*_sMLogic->spinEnded(targetCells[0], _currentBet);
-                    _sMLogic->calculateWin(_currentBet);*/
+                    _targetCellsCounter = 0;
+                    firstSpin = false;
                 }
             }
-            
-            _reel->startStopMachine(targetCells[0]);
+            _reel->startStopMachine(targetCells[_targetCellsCounter]);
         }
     });
 
